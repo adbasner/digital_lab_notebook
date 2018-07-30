@@ -1,1 +1,1 @@
-json.message @message
+json.labs @labs

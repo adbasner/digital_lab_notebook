@@ -1,1 +1,1 @@
-json.message @message
+json.notebook_sections @notebook_sections
