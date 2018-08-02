@@ -31,15 +31,11 @@ Rails.application.routes.draw do
     delete '/notebook_sections/:id' => 'notebook_sections#destroy'
 
     # students
-    get '/students' => 'students#index'
-    get '/students/:id' => 'students#show'
     post '/students' => 'students#create'
     patch '/students/:id' => 'students#update'
     delete '/students/:id' => 'students#destroy'
 
     # teachers
-    get '/teachers' => 'teachers#index'
-    get '/teachers/:id' => 'teachers#show'
     post '/teachers' => 'teachers#create'
     patch '/teachers/:id' => 'teachers#update'
     delete '/teachers/:id' => 'teachers#destroy'

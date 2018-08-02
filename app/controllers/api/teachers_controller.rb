@@ -1,14 +1,4 @@
 class Api::TeachersController < ApplicationController
-  # def index
-  #   @teachers = Teacher.all
-  #   render 'index.json.jbuilder'
-  # end
-
-  # def show
-  #   @teacher = Teacher.find_by(id: params[:id])
-  #   render 'show.json.jbuilder'
-  # end
-
   def create
     @teacher = Teacher.new(
         first_name: params[:first_name],
@@ -18,9 +8,12 @@ class Api::TeachersController < ApplicationController
         password_confirmation: params[:password_confirmation]
       )
 
-    # Add if statement eventually
-    @teacher.save
-    render 'show.json.jbuilder'
+    # If statement
+    if @teacher.save
+      render 'show.json.jbuilder'
+    else
+      render json: {errors: @teacher.errors.full_messages}, status: unprocessable_entity
+    end
   end
 
   def update
