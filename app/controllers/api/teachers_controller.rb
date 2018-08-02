@@ -1,13 +1,13 @@
 class Api::TeachersController < ApplicationController
-  def index
-    @teachers = Teacher.all
-    render 'index.json.jbuilder'
-  end
+  # def index
+  #   @teachers = Teacher.all
+  #   render 'index.json.jbuilder'
+  # end
 
-  def show
-    @teacher = Teacher.find_by(id: params[:id])
-    render 'show.json.jbuilder'
-  end
+  # def show
+  #   @teacher = Teacher.find_by(id: params[:id])
+  #   render 'show.json.jbuilder'
+  # end
 
   def create
     @teacher = Teacher.new(
@@ -38,6 +38,6 @@ class Api::TeachersController < ApplicationController
   def destroy
     @teacher = Teacher.find_by(id: params[:id])
     @teacher.destroy
-    render json: { message: 'Student deleted' }
+    render json: { message: 'Teacher deleted' }
   end
 end

@@ -1,1 +1,1 @@
-json.lab @lab
+json.partial! 'lab', lab: @lab

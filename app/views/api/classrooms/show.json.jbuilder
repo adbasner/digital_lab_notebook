@@ -1,1 +1,2 @@
-json.classroom @classroom
+json.partial! 'classroom', classroom: @classroom
+# json.classroom @classroom
