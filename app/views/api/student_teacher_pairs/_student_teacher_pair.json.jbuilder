@@ -1,0 +1,11 @@
+  json.id student_teacher_pair.id
+  json.teacher_id student_teacher_pair.teacher_id
+  json.student_id student_teacher_pair.student_id
+  json.course_id student_teacher_pair.course_id
+  json.teacher_first_name student_teacher_pair.teacher.first_name
+  json.teacher_last_name student_teacher_pair.teacher.last_name
+  json.teacher_email student_teacher_pair.teacher.email
+  json.student_first_name student_teacher_pair.student.first_name
+  json.student_last_name student_teacher_pair.student.last_name
+  json.student_email student_teacher_pair.student.email
+  json.course student_teacher_pair.course.name

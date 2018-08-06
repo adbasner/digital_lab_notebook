@@ -1,7 +1,14 @@
 class Api::CoursesController < ApplicationController
   def index
-    @courses = Course.all
-    render 'index.json.jbuilder'
+    if current_teacher
+      @courses = current_teacher.courses
+      render 'index.json.jbuilder'
+    elsif current_student
+      @courses = current_student.courses
+      render 'index.json.jbuilder'
+    else
+      render json: []
+    end
   end
 
   def show
@@ -33,4 +40,3 @@ class Api::CoursesController < ApplicationController
     render json: { message: 'Course deleted' }
   end
 end
-

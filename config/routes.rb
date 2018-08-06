@@ -2,12 +2,6 @@ Rails.application.routes.draw do
   # STEP 1: A ROUTE triggers a controller action
   # verb "/urls" => "namespace/controllers#action"
   namespace :api do
-    # classrooms
-    get '/classrooms' => 'classrooms#index'
-    get '/classrooms/:id' => 'classrooms#show'
-    post '/classrooms' => 'classrooms#create'
-    patch '/classrooms/:id' => 'classrooms#update'
-    delete '/classrooms/:id' => 'classrooms#destroy'
 
     # courses
     get '/courses' => 'courses#index'
@@ -39,5 +33,18 @@ Rails.application.routes.draw do
     post '/teachers' => 'teachers#create'
     patch '/teachers/:id' => 'teachers#update'
     delete '/teachers/:id' => 'teachers#destroy'
+
+    # teacher sessions
+    post '/teacher_sessions' => 'teacher_sessions#create'
+
+    # student sessions
+    post '/student_sessions' => 'student_sessions#create'
+
+    # student teacher pairs
+    get '/student_teacher_pairs' => 'student_teacher_pairs#index'
+    get '/student_teacher_pairs/:id' => 'student_teacher_pairs#show'
+    post '/student_teacher_pairs' => 'student_teacher_pairs#create'
+    patch '/student_teacher_pairs/:id' => 'student_teacher_pairs#update'
+    delete '/student_teacher_pairs/:id' => 'student_teacher_pairs#destroy'
   end
 end
