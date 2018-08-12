@@ -26,13 +26,13 @@ Rails.application.routes.draw do
 
     # students
     post '/students' => 'students#create'
-    patch '/students/:id' => 'students#update'
-    delete '/students/:id' => 'students#destroy'
+    # patch '/students/:id' => 'students#update'
+    # delete '/students/:id' => 'students#destroy'
 
     # teachers
     post '/teachers' => 'teachers#create'
-    patch '/teachers/:id' => 'teachers#update'
-    delete '/teachers/:id' => 'teachers#destroy'
+    # patch '/teachers/:id' => 'teachers#update'
+    # delete '/teachers/:id' => 'teachers#destroy'
 
     # teacher sessions
     post '/teacher_sessions' => 'teacher_sessions#create'
@@ -41,10 +41,12 @@ Rails.application.routes.draw do
     post '/student_sessions' => 'student_sessions#create'
 
     # student teacher pairs
-    get '/student_teacher_pairs' => 'student_teacher_pairs#index'
+    # get '/student_teacher_pairs' => 'student_teacher_pairs#index'
     get '/student_teacher_pairs/:id' => 'student_teacher_pairs#show'
     post '/student_teacher_pairs' => 'student_teacher_pairs#create'
-    patch '/student_teacher_pairs/:id' => 'student_teacher_pairs#update'
+    # patch '/student_teacher_pairs/:id' => 'student_teacher_pairs#update'
     delete '/student_teacher_pairs/:id' => 'student_teacher_pairs#destroy'
   end
 end
+
+ 

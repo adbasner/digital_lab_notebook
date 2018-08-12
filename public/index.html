@@ -13,6 +13,7 @@
   <script src="https://unpkg.com/axios/dist/axios.js"></script>
   <script src="index.js" defer></script>
 </head>
+
 <body>
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
       <a class="navbar-brand" href="#">Digital Lab Notebook</a>
@@ -30,10 +31,10 @@
               Teachers
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Signup</a>
+              <a class="dropdown-item" href="/#/teacher-login">Login</a>
+              <a class="dropdown-item" href="/#/logout">Logout</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Login</a>
-              <a class="dropdown-item" href="#">Logout</a>
+              <a class="dropdown-item" href="/#/teacher-signup">Signup</a>
             </div>
           </li>
           <li class="nav-item dropdown">
@@ -41,14 +42,14 @@
               Students
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Signup</a>
+              <a class="dropdown-item" href="/#/student-login">Login</a>
+              <a class="dropdown-item" href="/#/logout">Logout</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Login</a>
-              <a class="dropdown-item" href="#">Logout</a>
+              <a class="dropdown-item" href="/#/student-signup">Signup</a>
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">My Courses</a>
+            <a class="nav-link" href="/#/courses">My Courses</a>
           </li>
         </ul>
       </div>
@@ -77,3 +78,172 @@
 
   </div>
 </template>
+
+<template id="teacher-signup-page">
+  <div class="vue-component">
+
+    <div class="container">
+      <h1>Signup</h1>
+      <ul>
+        <li class="text-danger" v-for="error in errors">{{ error }}</li>
+      </ul>
+      <div class="form-group">
+        <label>First Name:</label> 
+        <input type="text" class="form-control" v-model="firstName">
+      </div>
+      <div class="form-group">
+        <label>Last Name:</label> 
+        <input type="text" class="form-control" v-model="lastName">
+      </div>
+      <div class="form-group">
+        <label>Email:</label>
+        <input type="email" class="form-control" v-model="email">
+      </div>
+      <div class="form-group">
+        <label>Password:</label>
+        <input type="password" class="form-control" v-model="password">
+      </div>
+      <div class="form-group">
+        <label>Password confirmation:</label>
+        <input type="password" class="form-control" v-model="passwordConfirmation">
+      </div>
+      <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+    </div>
+
+  </div>
+</template>
+
+<template id="student-signup-page">
+  <div class="vue-component">
+
+    <div class="container">
+      <h1>Signup</h1>
+      <ul>
+        <li class="text-danger" v-for="error in errors">{{ error }}</li>
+      </ul>
+      <div class="form-group">
+        <label>First Name:</label> 
+        <input type="text" class="form-control" v-model="firstName">
+      </div>
+        <div class="form-group">
+        <label>Last Name:</label> 
+        <input type="text" class="form-control" v-model="lastName">
+      </div>
+      <div class="form-group">
+        <label>Email:</label>
+        <input type="email" class="form-control" v-model="email">
+      </div>
+      <div class="form-group">
+        <label>Password:</label>
+        <input type="password" class="form-control" v-model="password">
+      </div>
+      <div class="form-group">
+        <label>Password confirmation:</label>
+        <input type="password" class="form-control" v-model="passwordConfirmation">
+      </div>
+      <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+    </div>
+
+  </div>
+</template>
+
+<template id="teacher-login-page">
+  <div class="vue-component">
+
+    <div class="container">
+      <h1>Teacher Login</h1>
+      <ul>
+        <li class="text-danger" v-for="error in errors">{{ error }}</li>
+      </ul>
+      <div class="form-group">
+        <label>Email:</label>
+        <input type="email" class="form-control" v-model="email">
+      </div>
+      <div class="form-group">
+        <label>Password:</label>
+        <input type="password" class="form-control" v-model="password">
+      </div>
+      <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+    </div>
+
+  </div>
+</template>
+
+<template id="student-login-page">
+  <div class="vue-component">
+
+    <div class="container">
+      <h1>Student Login</h1>
+      <ul>
+        <li class="text-danger" v-for="error in errors">{{ error }}</li>
+      </ul>
+      <div class="form-group">
+        <label>Email:</label>
+        <input type="email" class="form-control" v-model="email">
+      </div>
+      <div class="form-group">
+        <label>Password:</label>
+        <input type="password" class="form-control" v-model="password">
+      </div>
+      <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+    </div>
+
+  </div>
+</template>
+
+<template id="courses-page">
+  <div class="vue-component">
+    <h2>Courses</h2>
+    <ul>
+      <li class="text-danger" v-for="error in errors">{{ error }}</li>
+    </ul>
+    <hr>
+    <div v-for="course in coursesAttending">
+      
+      <h4> {{ course.name }} </h4>
+<!--       <p>Teacher: {{ course.teacher_full_name }} </p>
+      <p>Teacher email: {{ course.teacher_email }} </p>
+      <p>Course Description {{ course.description }}</p> -->
+      <a v-bind:href="'/#/courses/' + course.id" class="btn btn-primary">View Course</a>
+      <hr>
+    </div>
+
+    <div v-if="coursesNotAttending.length != 0">
+      <h2>Courses not enrolled in</h2>
+      <hr>
+      <div v-for="course in coursesNotAttending">
+        <h4> {{ course.name }} </h4>
+        <!-- <p>Teacher: {{ course.teacher_full_name }} </p>
+        <p>Teacher email: {{ course.teacher_email }} </p>
+        <p>Course Description {{ course.description }}</p> -->
+        <a v-bind:href="'/#/courses/' + course.id" class="btn btn-primary">View Course</a>
+        <hr>
+        
+      </div>
+    </div>
+  </div>
+</template>
+
+<template id="courses-show-page">
+  <div class="vue-component">
+    <a href="/#/courses/" class="btn btn-primary">Return to all courses</a>
+    <h2>Course Info</h2>
+    <ul>
+      <li class="text-danger" v-for="error in errors">{{ error }}</li>
+    </ul>
+    <hr>
+
+    <h4> {{ course.name }} </h4>
+    <p>Teacher: {{ course.teacher_full_name }} </p>
+    <p>Teacher email: {{ course.teacher_email }} </p>
+    <p>Course Description {{ course.description }}</p>
+
+    
+    <button v-on:click="submit()" class="btn btn-primary">Join</button>
+    <hr>
+  
+
+    <!-- </div> -->
+  </div>
+</template>
+
