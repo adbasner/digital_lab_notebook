@@ -50,6 +50,25 @@ var CoursesShowPage = {
       // console.log(this.course);
     }.bind(this));
   },
+  methods: {},
+  computed: {}
+};
+
+var CoursesJoinPage = {
+  template: "#courses-join-page",
+  data: function() {
+    return {
+      course: [],
+      errors: []
+    };
+  },
+  created: function() {
+    axios.get("/api/courses/" + this.$route.params.id).then(function(response) {
+      // console.log(response.data);
+      this.course = response.data;
+      // console.log(this.course);
+    }.bind(this));
+  },
   methods: {
     submit: function() {
       var params = {
@@ -73,35 +92,35 @@ var CoursesShowPage = {
 };
 
 var CoursesNewPage = {
-  // template: "#courses-new-page",
-  // data: function() {
-  //   return {
-  //     className: "",
-  //     description: "",
-  //     errors: []
-  //   };
-  // },
-  // created: {},
-  // methods: {
-  //   submit: function() {
-  //     var params = {
-  //       name: this.className,
-  //       description: this.description
-  //     };
+  template: "#courses-new-page",
+  data: function() {
+    return {
+      className: "",
+      description: "",
+      errors: []
+    };
+  },
+  created: function() {},
+  methods: {
+    submit: function() {
+      var params = {
+        name: this.className,
+        description: this.description
+      };
 
-  //     axios
-  //       .post("/api/courses", params)
-  //       .then(function(response) {
-  //         router.push("/courses");
-  //       })
-  //       .catch(
-  //         function(error) {
-  //           error.response.data.errors;
-  //         }.bind(this)
-  //       );
-  //   }
-  // },
-  // computed: {}
+      axios
+        .post("/api/courses", params)
+        .then(function(response) {
+          router.push("/courses");
+        })
+        .catch(
+          function(error) {
+            error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  },
+  computed: {}
 };
 
 var TeacherSignupPage = {
@@ -261,6 +280,7 @@ var router = new VueRouter({
     { path: "/logout", component: LogoutPage },
     { path: "/courses/new", component: CoursesNewPage },
     { path: "/courses/:id", component: CoursesShowPage },
+    { path: "/courses/:id/join", component: CoursesJoinPage },
   ], 
   scrollBehavior: function(to, from, savedPosition) {
     return { x: 0, y: 0 };

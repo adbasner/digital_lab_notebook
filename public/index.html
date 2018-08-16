@@ -197,7 +197,10 @@
     <ul>
       <li class="text-danger" v-for="error in errors">{{ error }}</li>
     </ul>
-    <a class="btn btn-success" href="/#/courses/new">Create a course!</a>
+    <div v-if="role == 'teacher'">
+      <a class="btn btn-success" href="/#/courses/new">Create a course!</a>
+    </div>
+
     <hr>
     <div v-for="course in coursesAttending">
       
@@ -212,7 +215,7 @@
       <div v-for="course in coursesNotAttending">
         <h4> {{ course.name }} </h4>
         <p>Course Description {{ course.description }}</p>
-        <a v-bind:href="'/#/courses/' + course.id" class="btn btn-primary">View Course</a>
+        <a v-bind:href="'/#/courses/' + course.id + '/join'" class="btn btn-primary">View Course</a>
         <hr>
         
       </div>
@@ -221,6 +224,23 @@
 </template>
 
 <template id="courses-show-page">
+  <div class="vue-component">
+    <a href="/#/courses/" class="btn btn-primary">Return to all courses</a>
+    <h2>Course Info</h2>
+    <ul>
+      <li class="text-danger" v-for="error in errors">{{ error }}</li>
+    </ul>
+    <hr>
+
+    <h4> {{ course.name }} </h4>
+    <p>Teacher: {{ course.teacher_full_name }} </p>
+    <p>Teacher email: {{ course.teacher_email }} </p>
+    <p>Course Description {{ course.description }}</p>
+
+  </div>
+</template>
+
+<template id="courses-join-page">
   <div class="vue-component">
     <a href="/#/courses/" class="btn btn-primary">Return to all courses</a>
     <h2>Course Info</h2>
