@@ -2,14 +2,18 @@ class Api::CoursesController < ApplicationController
   def index
     if current_teacher
       @courses = current_teacher.courses
+      @role = 'teacher'
       render 'index.json.jbuilder'
     elsif current_student
       @courses = current_student.courses
       # sql query here
       @not_enrolled = Course.all - current_student.courses
+      @role = 'student'
       render 'index.json.jbuilder'
     else
-      render json: []
+      @courses = []
+      @role = 'Not logged in.'
+      render 'index.json.jbuilder'
     end
   end
 
@@ -20,7 +24,6 @@ class Api::CoursesController < ApplicationController
 
   def create
     if current_teacher
-      p current_teacher.id
       @course = Course.new(
           name: params[:name],
           description: params[:description],
@@ -31,7 +34,7 @@ class Api::CoursesController < ApplicationController
       @course.save
       render 'show.json.jbuilder'
     else
-      render json: {message: "You can not do that"}
+      render json: {message: 'You can not do that'}
     end
   end
 

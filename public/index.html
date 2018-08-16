@@ -24,7 +24,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -193,29 +193,25 @@
 
 <template id="courses-page">
   <div class="vue-component">
-    <h2>Courses</h2>
+    <h2>My Courses</h2>
     <ul>
       <li class="text-danger" v-for="error in errors">{{ error }}</li>
     </ul>
+    <a class="btn btn-success" href="/#/courses/new">Create a course!</a>
     <hr>
     <div v-for="course in coursesAttending">
       
       <h4> {{ course.name }} </h4>
-<!--       <p>Teacher: {{ course.teacher_full_name }} </p>
-      <p>Teacher email: {{ course.teacher_email }} </p>
-      <p>Course Description {{ course.description }}</p> -->
       <a v-bind:href="'/#/courses/' + course.id" class="btn btn-primary">View Course</a>
       <hr>
     </div>
 
-    <div v-if="coursesNotAttending.length != 0">
+    <div v-if="role == 'student' && coursesNotAttending.length !== 0">
       <h2>Courses not enrolled in</h2>
       <hr>
       <div v-for="course in coursesNotAttending">
         <h4> {{ course.name }} </h4>
-        <!-- <p>Teacher: {{ course.teacher_full_name }} </p>
-        <p>Teacher email: {{ course.teacher_email }} </p>
-        <p>Course Description {{ course.description }}</p> -->
+        <p>Course Description {{ course.description }}</p>
         <a v-bind:href="'/#/courses/' + course.id" class="btn btn-primary">View Course</a>
         <hr>
         
@@ -247,3 +243,22 @@
   </div>
 </template>
 
+<template id="courses-new-page">
+  <div class="vue-component">
+    <div class="container">
+      <h1>Signup</h1>
+      <ul>
+        <li class="text-danger" v-for="error in errors">{{ error }}</li>
+      </ul>
+      <div class="form-group">
+        <label>Class Name:</label> 
+        <input type="text" class="form-control" v-model="className">
+      </div>
+      <div class="form-group">
+        <label>Description:</label> 
+        <input type="text" class="form-control" v-model="description">
+      </div>
+      <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+    </div>
+  </div>
+</template>

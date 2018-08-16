@@ -18,18 +18,17 @@ var CoursesPage = {
     return {
       coursesAttending: [],
       coursesNotAttending: [],
-      errors: []
+      errors: [],
+      role: ""
     };
   },
   created: function() {
     axios.get('/api/courses').then(function(response) {
-      // console.log(response.data);
+
       this.coursesAttending = response.data.courses_attending;
-      console.log("Attending: ");
-      console.log(this.coursesAttending);
       this.coursesNotAttending = response.data.courses_not_attending;
-      // console.log("Not Attending: ");
-      // console.log(this.coursesNotAttending);
+      this.role = response.data.role;
+
     }.bind(this));
   },
   methods: {},
@@ -73,6 +72,37 @@ var CoursesShowPage = {
   computed: {}
 };
 
+var CoursesNewPage = {
+  // template: "#courses-new-page",
+  // data: function() {
+  //   return {
+  //     className: "",
+  //     description: "",
+  //     errors: []
+  //   };
+  // },
+  // created: {},
+  // methods: {
+  //   submit: function() {
+  //     var params = {
+  //       name: this.className,
+  //       description: this.description
+  //     };
+
+  //     axios
+  //       .post("/api/courses", params)
+  //       .then(function(response) {
+  //         router.push("/courses");
+  //       })
+  //       .catch(
+  //         function(error) {
+  //           error.response.data.errors;
+  //         }.bind(this)
+  //       );
+  //   }
+  // },
+  // computed: {}
+};
 
 var TeacherSignupPage = {
   template: "#teacher-signup-page",
@@ -229,7 +259,8 @@ var router = new VueRouter({
     { path: "/student-signup", component: StudentSignupPage },
     { path: "/student-login", component: StudentLoginPage },
     { path: "/logout", component: LogoutPage },
-    { path: "/courses/:id", component: CoursesShowPage }
+    { path: "/courses/new", component: CoursesNewPage },
+    { path: "/courses/:id", component: CoursesShowPage },
   ], 
   scrollBehavior: function(to, from, savedPosition) {
     return { x: 0, y: 0 };
