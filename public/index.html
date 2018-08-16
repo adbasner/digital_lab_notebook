@@ -214,7 +214,7 @@
       <hr>
       <div v-for="course in coursesNotAttending">
         <h4> {{ course.name }} </h4>
-        <p>Course Description {{ course.description }}</p>
+        <p>Course Description: {{ course.description }}</p>
         <a v-bind:href="'/#/courses/' + course.id + '/join'" class="btn btn-primary">View Course</a>
         <hr>
         
@@ -225,8 +225,9 @@
 
 <template id="courses-show-page">
   <div class="vue-component">
-    <a href="/#/courses/" class="btn btn-primary">Return to all courses</a>
+    
     <h2>Course Info</h2>
+    <a href="/#/courses/" class="btn btn-primary">Return to all courses</a>
     <ul>
       <li class="text-danger" v-for="error in errors">{{ error }}</li>
     </ul>
@@ -235,7 +236,11 @@
     <h4> {{ course.name }} </h4>
     <p>Teacher: {{ course.teacher_full_name }} </p>
     <p>Teacher email: {{ course.teacher_email }} </p>
-    <p>Course Description {{ course.description }}</p>
+    <p>Course Description: {{ course.description }}</p>
+    <div v-if="role == 'teacher'">
+      <a class="btn btn-success" v-bind:href="'/#/courses/' + course.id + '/edit'">Edit this course</a>
+      <a class="btn btn-danger" v-bind:href="'/#/courses/' + course.id + '/delete'">Delete this course</a>
+    </div>
 
   </div>
 </template>
@@ -280,5 +285,35 @@
       </div>
       <button class="btn btn-primary" v-on:click="submit()">Submit</button>
     </div>
+  </div>
+</template>
+
+<template id="courses-edit-page">
+  <div class="vue-component">
+
+    <div class="container">
+      <h1>Edit</h1>
+      <ul>
+        <li class="text-danger" v-for="error in errors">{{ error }}</li>
+      </ul>
+      <div class="form-group">
+        <label>Class Name:</label> 
+        <input type="text" class="form-control" v-model="className">
+      </div>
+      <div class="form-group">
+        <label>Description:</label> 
+        <input type="text" class="form-control" v-model="description">
+      </div>
+      <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+    </div>
+
+  </div>
+</template>
+
+<template id="courses-delete-page">
+  <div class="vue-component">
+
+    <h1>{{ message }}</h1>
+
   </div>
 </template>

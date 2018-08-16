@@ -39,15 +39,15 @@ var CoursesShowPage = {
   template: "#courses-show-page",
   data: function() {
     return {
-      course: [],
-      errors: []
+      course: {},
+      errors: [],
+      role: ""
     };
   },
   created: function() {
     axios.get("/api/courses/" + this.$route.params.id).then(function(response) {
-      // console.log(response.data);
       this.course = response.data;
-      // console.log(this.course);
+      this.role = response.data.role;
     }.bind(this));
   },
   methods: {},
@@ -121,6 +121,77 @@ var CoursesNewPage = {
     }
   },
   computed: {}
+};
+
+var CoursesEditPage = {
+  template: "#courses-edit-page",
+  data: function() {
+    return {
+      className: "",
+      description: "",
+      errors: [],
+      id: this.$route.params.id
+    };
+  },
+  created: function() {
+    axios.get("/api/courses/" + this.$route.params.id).then(function(response) {
+      this.course = response.data;
+      this.className = response.data.name;
+      this.description = response.data.description;
+    }.bind(this));
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        name: this.className,
+        description: this.description
+      };
+      var route = "/courses/" + this.id;
+      axios
+        .patch("/api/courses/" + this.$route.params.id, params)
+        .then(function(response) {
+          router.push(route);
+        })
+        .catch(
+          function(error) {
+            error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  },
+  computed: {}
+
+};
+
+var CoursesDeletePage = {
+  template: "#courses-delete-page",
+  data: function() {
+    return {
+      message: "Delete this course?"
+    };
+  },
+  created: function() {
+
+  },
+  methods: {},
+  computed: {}
+
+  // template: "#courses-delete-page",
+  // data: function() {
+  //   return {
+  //     course: [],
+  //     errors: []
+  //   };
+  // },
+  // created: function() {
+  //   axios.get("/api/courses/" + this.$route.params.id).then(function(response) {
+  //     // console.log(response.data);
+  //     this.course = response.data;
+  //     // console.log(this.course);
+  //   }.bind(this));
+  // },
+  // methods: {},
+
 };
 
 var TeacherSignupPage = {
@@ -280,6 +351,8 @@ var router = new VueRouter({
     { path: "/logout", component: LogoutPage },
     { path: "/courses/new", component: CoursesNewPage },
     { path: "/courses/:id", component: CoursesShowPage },
+    { path: "/courses/:id/edit", component: CoursesEditPage },
+    { path: "/courses/:id/delete", component: CoursesDeletePage },
     { path: "/courses/:id/join", component: CoursesJoinPage },
   ], 
   scrollBehavior: function(to, from, savedPosition) {

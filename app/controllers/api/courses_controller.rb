@@ -18,6 +18,9 @@ class Api::CoursesController < ApplicationController
   end
 
   def show
+    if current_teacher
+      @role = 'teacher'
+    end
     @course = Course.find_by(id: params[:id])
     render 'show.json.jbuilder'
   end
@@ -29,7 +32,7 @@ class Api::CoursesController < ApplicationController
           description: params[:description],
           teacher_id: current_teacher.id
         )
-
+      
       # Add if statement
       @course.save
       render 'show.json.jbuilder'
@@ -46,6 +49,9 @@ class Api::CoursesController < ApplicationController
 
       # Add an if statement
       @course.save
+      if current_teacher
+        @role = 'teacher'
+      end
       render 'show.json.jbuilder'
     else
       render json: {message: "You can not do that"}
@@ -56,6 +62,7 @@ class Api::CoursesController < ApplicationController
     if current_teacher
       @course = Course.find_by(id: params[:id])
       @course.destroy
+      @role = 'teacher'
       render json: { message: 'Course deleted' }
     else
       render json: {message: "You can not do that"}
