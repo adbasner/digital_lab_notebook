@@ -1,5 +1,3 @@
-/* global Vue, VueRouter, axios */
-
 var HomePage = {
   template: "#home-page",
   data: function() {
@@ -11,6 +9,10 @@ var HomePage = {
   methods: {},
   computed: {}
 };
+
+// ******************************
+// Course Crud
+// ******************************
 
 var CoursesPage = {
   template: "#courses-page",
@@ -41,16 +43,22 @@ var CoursesShowPage = {
     return {
       course: {},
       errors: [],
-      role: ""
+      role: "",
+      courseId: this.$route.params.id
     };
   },
   created: function() {
-    axios.get("/api/courses/" + this.$route.params.id).then(function(response) {
+    axios.get("/api/courses/" + this.courseId).then(function(response) {
       this.course = response.data;
       this.role = response.data.role;
     }.bind(this));
   },
-  methods: {},
+  methods: {
+    submit: function() {
+      var route = "/labs?course_id=" + this.courseId;
+      router.push(route);
+    }
+  },
   computed: {}
 };
 
@@ -160,7 +168,6 @@ var CoursesEditPage = {
     }
   },
   computed: {}
-
 };
 
 var CoursesDeletePage = {
@@ -199,6 +206,38 @@ var CoursesDeletePage = {
   computed: {}
 
 };
+
+// ******************************
+// Lab Crud
+// ******************************
+
+var LabsPage = {
+  template: "#labs-page",
+  data: function() {
+    return {
+      labs: [],
+      errors: [],
+      role: "",
+      // courseId: this.$route.query.course_id
+    };
+  },
+  created: function() {
+    console.log(this.courseId);
+    axios.get("/api/labs?course_id=" + this.$route.query.course_id).then(function(response) {
+      // console.log(response.data);
+      this.labs = response.data;
+      // this.coursesNotAttending = response.data.courses_not_attending;
+      // this.role = response.data.role;
+
+    }.bind(this));
+  },
+  methods: {},
+  computed: {}
+};
+
+// ******************************
+// Authentication
+// ******************************
 
 var TeacherSignupPage = {
   template: "#teacher-signup-page",
@@ -303,7 +342,6 @@ var StudentSignupPage = {
   }
 };
 
-
 var StudentLoginPage = {
   template: "#student-login-page",
   data: function() {
@@ -346,6 +384,10 @@ var LogoutPage = {
   }
 };
 
+// ******************************
+// Vue Stuff
+// ******************************
+
 var router = new VueRouter({
   routes: [
     { path: "/", component: HomePage },
@@ -360,6 +402,8 @@ var router = new VueRouter({
     { path: "/courses/:id/edit", component: CoursesEditPage },
     { path: "/courses/:id/delete", component: CoursesDeletePage },
     { path: "/courses/:id/join", component: CoursesJoinPage },
+    { path: "/labs", component: LabsPage }
+
   ], 
   scrollBehavior: function(to, from, savedPosition) {
     return { x: 0, y: 0 };

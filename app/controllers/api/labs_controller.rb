@@ -1,6 +1,9 @@
 class Api::LabsController < ApplicationController
   def index
-    @labs = Lab.all
+    p '*************************'
+    p params
+    p '*************************'
+    @labs = Lab.where(course_id: params[:course_id])
     render 'index.json.jbuilder'
   end
 
@@ -11,7 +14,7 @@ class Api::LabsController < ApplicationController
 
   def create
     @lab = Lab.new(
-        classroom_id: params[:classroom_id],
+        # classroom_id: params[:classroom_id],
         title: params[:title],
         complete: params[:complete]
       )
@@ -23,7 +26,7 @@ class Api::LabsController < ApplicationController
 
   def update
     @lab = Lab.find_by(id: params[:id])
-    @lab.classroom_id = params[:classroom_id] || @lab.classroom_id
+    # @lab.classroom_id = params[:classroom_id] || @lab.classroom_id
     @lab.title = params[:title] || @lab.title
     @lab.complete = params[:complete] || @lab.complete
 
