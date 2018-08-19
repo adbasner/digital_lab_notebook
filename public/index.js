@@ -218,22 +218,36 @@ var LabsPage = {
       labs: [],
       errors: [],
       role: "",
-      // courseId: this.$route.query.course_id
     };
   },
   created: function() {
     console.log(this.courseId);
     axios.get("/api/labs?course_id=" + this.$route.query.course_id).then(function(response) {
-      // console.log(response.data);
-      this.labs = response.data;
-      // this.coursesNotAttending = response.data.courses_not_attending;
-      // this.role = response.data.role;
-
+      console.log(response.data);
+      this.labs = response.data.labs;
+      this.role = response.data.role;
     }.bind(this));
   },
   methods: {},
   computed: {}
 };
+
+var LabsNewPage = {
+};
+
+var LabsShowPage = {
+};
+
+var LabsEditPage = {
+};
+
+var LabsDeletePage = {
+};
+
+// ******************************
+// Notebook Sections Crud
+// ******************************
+
 
 // ******************************
 // Authentication
@@ -402,7 +416,11 @@ var router = new VueRouter({
     { path: "/courses/:id/edit", component: CoursesEditPage },
     { path: "/courses/:id/delete", component: CoursesDeletePage },
     { path: "/courses/:id/join", component: CoursesJoinPage },
-    { path: "/labs", component: LabsPage }
+    { path: "/labs", component: LabsPage },
+    { path: "/labs/new", component: LabsNewPage },
+    { path: "/labs/:id", component: LabsShowPage },
+    { path: "/labs/:id/edit", component: LabsEditPage },
+    { path: "/labs/:id/delete", component: LabsDeletePage },
 
   ], 
   scrollBehavior: function(to, from, savedPosition) {

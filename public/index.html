@@ -339,38 +339,21 @@ Lab Crud
 <template id="labs-page">
   <div class="vue-component">
     <h2>Course Labs</h2>
-    <p>{{ labs }} </p>
-    <div v-for="lab in labs">
-      
-      <!-- <h4> {{ lab }} </h4> -->
-<!--       <a v-bind:href="'/#/courses/' + course.id" class="btn btn-primary">View Course</a>
-      <hr> -->
-    </div>
-<!--     <ul>
-      <li class="text-danger" v-for="error in errors">{{ error }}</li>
-    </ul>
-    <div v-if="role == 'teacher'">
-      <a class="btn btn-success" href="/#/courses/new">Create a course!</a>
-    </div>
-
     <hr>
-    <div v-for="course in coursesAttending">
-      
-      <h4> {{ course.name }} </h4>
-      <a v-bind:href="'/#/courses/' + course.id" class="btn btn-primary">View Course</a>
-      <hr>
+    <div v-if="labs.length !== 0">
+      <div v-for="lab in labs">
+        <h4> {{ lab.title }} </h4>
+        <a class="btn btn-primary" v-bind:href="'/#/labs/' + lab.id">View this lab</a>
+        <hr>
+      </div>
     </div>
 
-    <div v-if="role == 'student' && coursesNotAttending.length !== 0">
-      <h2>Courses not enrolled in</h2>
-      <hr>
-      <div v-for="course in coursesNotAttending">
-        <h4> {{ course.name }} </h4>
-        <p>Course Description: {{ course.description }}</p>
-        <a v-bind:href="'/#/courses/' + course.id + '/join'" class="btn btn-primary">View Course</a>
-        <hr>
-        
-      </div>
-    </div> -->
+    <div v-else>
+      <h4>There are currently no labs in this course.</h4>
+    </div>
+
+    <div v-if="role == 'teacher'">
+      <a class="btn btn-success" href="/#/labs/new">Create a lab!</a>
+    </div>
   </div>
 </template>

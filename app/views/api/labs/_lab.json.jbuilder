@@ -4,3 +4,4 @@ json.title lab.title
 json.complete lab.complete
 json.notebook_sections lab.notebook_sections
 # lab.notebook_sections
+json.role @role

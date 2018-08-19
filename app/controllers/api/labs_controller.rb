@@ -1,9 +1,13 @@
 class Api::LabsController < ApplicationController
   def index
-    p '*************************'
-    p params
-    p '*************************'
     @labs = Lab.where(course_id: params[:course_id])
+    if current_teacher
+      @role = 'teacher'
+    elsif current_student
+      @role = 'student'
+    else
+      @role = 'Not logged in.'
+    end
     render 'index.json.jbuilder'
   end
 
