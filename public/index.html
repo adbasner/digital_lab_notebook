@@ -238,9 +238,11 @@
     <p>Teacher email: {{ course.teacher_email }} </p>
     <p>Course Description: {{ course.description }}</p>
     <div v-if="role == 'teacher'">
-      <a class="btn btn-success" v-bind:href="'/#/courses/' + course.id + '/edit'">Edit this course</a>
+      <a class="btn btn-info" v-bind:href="'/#/courses/' + course.id + '/edit'">Edit this course</a>
       <a class="btn btn-danger" v-bind:href="'/#/courses/' + course.id + '/delete'">Delete this course</a>
     </div>
+    <a href="/#/"></a>
+    <hr>
 
   </div>
 </template>
@@ -314,6 +316,9 @@
   <div class="vue-component">
 
     <h1>{{ message }}</h1>
+    <a v-bind:href="'/#/courses/' + course.id" class="btn btn-success">No</a>
+    <button class="btn btn-danger" v-on:click="submit()">Yes</button>
+
 
   </div>
 </template>

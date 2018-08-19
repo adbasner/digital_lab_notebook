@@ -167,30 +167,36 @@ var CoursesDeletePage = {
   template: "#courses-delete-page",
   data: function() {
     return {
-      message: "Delete this course?"
+      message: "Delete this course?",
+      course: {},
+      errors: [],
+      role: ""
     };
   },
   created: function() {
+    axios.get("/api/courses/" + this.$route.params.id).then(function(response) {
+      console.log('hello from couse delete page');
+      this.course = response.data;
+      this.className = response.data.name;
+      this.description = response.data.description;
+    }.bind(this));
+  },
+  methods: {
+    submit: function() {
+      axios
+        .delete("/api/courses/" + this.$route.params.id)
+        .then(function(response) {
+          router.push("/courses");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
 
   },
-  methods: {},
   computed: {}
-
-  // template: "#courses-delete-page",
-  // data: function() {
-  //   return {
-  //     course: [],
-  //     errors: []
-  //   };
-  // },
-  // created: function() {
-  //   axios.get("/api/courses/" + this.$route.params.id).then(function(response) {
-  //     // console.log(response.data);
-  //     this.course = response.data;
-  //     // console.log(this.course);
-  //   }.bind(this));
-  // },
-  // methods: {},
 
 };
 
@@ -343,12 +349,12 @@ var LogoutPage = {
 var router = new VueRouter({
   routes: [
     { path: "/", component: HomePage },
-    { path: "/courses", component: CoursesPage },
     { path: "/teacher-signup", component: TeacherSignupPage },
     { path: "/teacher-login", component: TeacherLoginPage },    
     { path: "/student-signup", component: StudentSignupPage },
     { path: "/student-login", component: StudentLoginPage },
     { path: "/logout", component: LogoutPage },
+    { path: "/courses", component: CoursesPage },
     { path: "/courses/new", component: CoursesNewPage },
     { path: "/courses/:id", component: CoursesShowPage },
     { path: "/courses/:id/edit", component: CoursesEditPage },
