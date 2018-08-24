@@ -12,14 +12,17 @@ class Api::NotebookSectionsController < ApplicationController
   def create
     @notebook_section = NotebookSection.new(
         lab_id: params[:lab_id],
-        priority: params[:priority],
+        # priority: params[:priority],
         heading: params[:heading],
         data: params[:data],
         student_can_edit: params[:student_can_edit]
       )
 
     # Add if statement eventually
-    @notebook_section.save
+    # if current_teacher
+      @notebook_section.save!
+    # end
+    
     render 'show.json.jbuilder'
   end
 

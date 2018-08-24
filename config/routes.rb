@@ -48,5 +48,3 @@ Rails.application.routes.draw do
     delete '/student_teacher_pairs/:id' => 'student_teacher_pairs#destroy'
   end
 end
-
- 

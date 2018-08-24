@@ -234,24 +234,34 @@ Course Crud
 <template id="courses-show-page">
   <div class="vue-component">
     
-    <h2>Course Info</h2>
-    <a href="/#/courses/" class="btn btn-primary">Return to all courses</a>
+    <h2>{{ course.name }}</h2>
+    <a href="/#/courses/" class="btn btn-primary">Go Back</a>
     <ul>
       <li class="text-danger" v-for="error in errors">{{ error }}</li>
     </ul>
     <hr>
 
-    <h4> {{ course.name }} </h4>
-    <p>Teacher: {{ course.teacher_full_name }} </p>
-    <p>Teacher email: {{ course.teacher_email }} </p>
-    <p>Course Description: {{ course.description }}</p>
+    <!-- <div v-if="role !== 'teacher'"> -->
+      <p v-if="role !== 'teacher'">Teacher: {{ course.teacher_full_name }} </p>
+      <p v-if="role !== 'teacher'">Teacher email: {{ course.teacher_email }} </p>
+    <!-- </div> -->
+    <h4>Course Description</h4> 
+    <p>{{ course.description }}</p>
     <div v-if="role == 'teacher'">
       <a class="btn btn-info" v-bind:href="'/#/courses/' + course.id + '/edit'">Edit this course</a>
       <a class="btn btn-danger" v-bind:href="'/#/courses/' + course.id + '/delete'">Delete this course</a>
     </div>
     <hr>
-    <div>
-      <button class="btn btn-success" v-on:click="submit()">View the labs in this course</button>
+    <h4>Labs in this course</h4>
+    <hr>
+    <div v-if="role == 'teacher'">
+      <a class="btn btn-success" v-bind:href="'/#/labs/new?course=' + course.id">Add a Lab</a>
+    </div>
+    <hr>
+    <div v-for="lab in labs">
+      <p> {{ lab.title }} </p>
+      <a v-bind:href="'/#/labs/' + lab.id" class="btn btn-primary">View Lab</a>
+      <hr>
     </div>
   </div>
 </template>
@@ -323,8 +333,8 @@ Course Crud
 
 <template id="courses-delete-page">
   <div class="vue-component">
-
-    <h1>{{ message }}</h1>
+    <h2>{{ course.name }}</h2>
+    <h3>Delete this lab?</h3>
     <a v-bind:href="'/#/courses/' + course.id" class="btn btn-success">No</a>
     <button class="btn btn-danger" v-on:click="submit()">Yes</button>
 
@@ -336,24 +346,102 @@ Course Crud
 Lab Crud
 ************************** -->
 
-<template id="labs-page">
+<template id="labs-show-page">
   <div class="vue-component">
-    <h2>Course Labs</h2>
+    <h2>{{ lab.title }}</h2>
     <hr>
-    <div v-if="labs.length !== 0">
-      <div v-for="lab in labs">
-        <h4> {{ lab.title }} </h4>
-        <a class="btn btn-primary" v-bind:href="'/#/labs/' + lab.id">View this lab</a>
-        <hr>
-      </div>
-    </div>
-
-    <div v-else>
-      <h4>There are currently no labs in this course.</h4>
-    </div>
-
     <div v-if="role == 'teacher'">
-      <a class="btn btn-success" href="/#/labs/new">Create a lab!</a>
+      <a class="btn btn-info" v-bind:href="'/#/labs/' + lab.id + '/edit'">Edit this lab</a>
+      <a class="btn btn-danger" v-bind:href="'/#/labs/' + lab.id + '/delete'">Delete this lab</a>
+    </div>
+    <hr>
+    <div v-if="role == 'teacher'">
+      <a class="btn btn-success" v-bind:href="'/#/labs/' + lab.id + '/notebook/new'">Add a section</a>
+    </div>
+    <hr>
+    <div v-for="section in notebookSections">
+      <h4> {{ section.heading }} </h4>
+      <div v-if="section.student_can_edit">
+        <input type="text" name="section-data">
+      </div>
+      <p v-else>{{ section.data }}</p>
+      <hr>
     </div>
   </div>
 </template>
+
+<template id="labs-new-page">
+  <div class="vue-component">
+    <div class="container">
+      <h1>Create a Lab</h1>
+      <ul>
+        <li class="text-danger" v-for="error in errors">{{ error }}</li>
+      </ul>
+      <div class="form-group">
+        <label>Lab Name:</label> 
+        <input type="text" class="form-control" v-model="labName">
+      </div>
+      <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+    </div>
+  </div>
+</template>
+
+<template id="labs-edit-page">
+  <div class="vue-component">
+
+    <div class="container">
+      <h1>Edit Lab</h1>
+      <ul>
+        <li class="text-danger" v-for="error in errors">{{ error }}</li>
+      </ul>
+      <div class="form-group">
+        <label>Lab Title:</label> 
+        <input type="text" class="form-control" v-model="labName">
+      </div>
+      <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+    </div>
+
+  </div>
+</template>
+
+<template id="labs-delete-page">
+  <div class="vue-component">
+    <h2>{{ lab.title }}</h2>
+    <h3>Delete this lab?</h3>
+    <a v-bind:href="'/#/labs/' + lab.id" class="btn btn-success">No</a>
+    <button class="btn btn-danger" v-on:click="submit()">Yes</button>
+
+
+  </div>
+</template>
+
+<!-- **************************
+Notebook Section Crud
+************************** -->
+
+<template id="notebook-section-new-page">
+  <div class="vue-component">
+    <div class="container">
+      <h2>Add a section</h2>
+      <ul>
+        <li class="text-danger" v-for="error in errors">{{ error }}</li>
+      </ul>
+      <div class="form-group">
+        <label>Section Heading:</label> 
+        <input type="text" class="form-control" v-model="heading">
+      </div>
+      <div class="form-group">
+        <label>Section Data: (You can leave it blank to let students fill it in)</label> 
+        <input type="textarea" rows="5" class="form-control" v-model="datas">
+      </div>
+      <p>Can the student edit this section?</p>
+      <div class="form-group">
+        <label class="radio-inline"><input type="radio" value=false v-model="canEdit"> Can not Edit</label>
+        <label class="radio-inline"><input type="radio" value=true v-model="canEdit"> Can Edit</label>
+      </div>
+      
+      <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+    </div>
+  </div>
+</template>
+

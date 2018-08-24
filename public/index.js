@@ -44,20 +44,19 @@ var CoursesShowPage = {
       course: {},
       errors: [],
       role: "",
+      labs: [],
       courseId: this.$route.params.id
     };
   },
   created: function() {
     axios.get("/api/courses/" + this.courseId).then(function(response) {
+      // console.log(response.data.labs);
       this.course = response.data;
       this.role = response.data.role;
+      this.labs= response.data.labs
     }.bind(this));
   },
   methods: {
-    submit: function() {
-      var route = "/labs?course_id=" + this.courseId;
-      router.push(route);
-    }
   },
   computed: {}
 };
@@ -174,7 +173,6 @@ var CoursesDeletePage = {
   template: "#courses-delete-page",
   data: function() {
     return {
-      message: "Delete this course?",
       course: {},
       errors: [],
       role: ""
@@ -184,7 +182,6 @@ var CoursesDeletePage = {
     axios.get("/api/courses/" + this.$route.params.id).then(function(response) {
       console.log('hello from couse delete page');
       this.course = response.data;
-      this.className = response.data.name;
       this.description = response.data.description;
     }.bind(this));
   },
@@ -201,30 +198,63 @@ var CoursesDeletePage = {
           }.bind(this)
         );
     }
-
   },
   computed: {}
-
 };
 
 // ******************************
 // Lab Crud
 // ******************************
 
-var LabsPage = {
-  template: "#labs-page",
+var LabsNewPage = {
+  template: "#labs-new-page",
   data: function() {
     return {
-      labs: [],
-      errors: [],
-      role: "",
+      labName: "",
+      courseId: this.$route.query.course,
+      errors: []
     };
   },
   created: function() {
-    console.log(this.courseId);
-    axios.get("/api/labs?course_id=" + this.$route.query.course_id).then(function(response) {
+    console.log(this.$route);
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        title: this.labName,
+        course_id: this.courseId
+      };
+      var id = this.courseId;
+      axios
+        .post("/api/labs", params)
+        .then(function(response) {
+          router.push("/courses/" + id);
+        })
+        .catch(
+          function(error) {
+            error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  },
+  computed: {}
+};
+
+var LabsShowPage = {
+  template: "#labs-show-page",
+  data: function() {
+    return {
+      lab: {},
+      errors: [],
+      role: "",
+      notebookSections: []
+    };
+  },
+  created: function() {
+    axios.get("/api/labs/" + this.$route.params.id).then(function(response) {
       console.log(response.data);
-      this.labs = response.data.labs;
+      this.lab = response.data;
+      this.notebookSections = response.data.notebook_sections;
       this.role = response.data.role;
     }.bind(this));
   },
@@ -232,21 +262,118 @@ var LabsPage = {
   computed: {}
 };
 
-var LabsNewPage = {
-};
-
-var LabsShowPage = {
-};
-
 var LabsEditPage = {
+  template: "#labs-edit-page",
+  data: function() {
+    return {
+      labName: "",
+      errors: [],
+      id: this.$route.params.id
+    };
+  },
+  created: function() {
+    axios.get("/api/labs/" + this.$route.params.id).then(function(response) {
+      console.log(response.data);
+      this.labName = response.data.title;
+    }.bind(this));
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        title: this.labName,
+        
+      };
+      var route = "/labs/" + this.id;
+      axios
+        .patch("/api/labs/" + this.id, params)
+        .then(function(response) {
+          router.push(route);
+        })
+        .catch(
+          function(error) {
+            error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  },
+  computed: {}
 };
 
 var LabsDeletePage = {
+  template: "#labs-delete-page",
+  data: function() {
+    return {
+      lab: {},
+      errors: [],
+      role: ""
+    };
+  },
+  created: function() {
+    axios.get("/api/labs/" + this.$route.params.id).then(function(response) {
+      console.log('hello from lab delete page');
+      this.lab = response.data;
+      this.description = response.data.description;
+    }.bind(this));
+  },
+  methods: {
+    submit: function() {
+      axios
+        .delete("/api/labs/" + this.$route.params.id)
+        .then(function(response) {
+          router.push("/courses");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  },
+  computed: {}
 };
 
 // ******************************
 // Notebook Sections Crud
 // ******************************
+
+var NoteboookSectionNewPage = {
+  template: "#notebook-section-new-page",
+  data: function() {
+    return {
+      heading: "",
+      datas: "",
+      canEdit: "",
+      errors: []
+    };
+  },
+  created: function() {
+    console.log(this.$route);
+  },
+  methods: {
+    submit: function() {
+      console.log("Clicked submit");
+      var params = {
+        heading: this.heading,
+        data: this.datas,
+        student_can_edit: this.canEdit,
+        lab_id: this.$route.params.id
+      };
+      console.log(params);
+
+      axios
+        .post("/api/notebook_sections", params)
+        .then(function(response) {
+          router.push("/labs/" + this.$route.params.id);
+        }.bind(this))
+        .catch(
+          function(error) {
+            error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  },
+  computed: {}
+};
 
 
 // ******************************
@@ -416,11 +543,11 @@ var router = new VueRouter({
     { path: "/courses/:id/edit", component: CoursesEditPage },
     { path: "/courses/:id/delete", component: CoursesDeletePage },
     { path: "/courses/:id/join", component: CoursesJoinPage },
-    { path: "/labs", component: LabsPage },
     { path: "/labs/new", component: LabsNewPage },
     { path: "/labs/:id", component: LabsShowPage },
     { path: "/labs/:id/edit", component: LabsEditPage },
     { path: "/labs/:id/delete", component: LabsDeletePage },
+    { path: "/labs/:id/notebook/new", component: NoteboookSectionNewPage }
 
   ], 
   scrollBehavior: function(to, from, savedPosition) {

@@ -13,18 +13,27 @@ class Api::LabsController < ApplicationController
 
   def show
     @lab = Lab.find_by(id: params[:id])
+    if current_teacher
+      @role = 'teacher'
+    elsif current_student
+      @role = 'student'
+    else
+      @role = 'Not logged in.'
+    end
     render 'show.json.jbuilder'
   end
 
   def create
     @lab = Lab.new(
-        # classroom_id: params[:classroom_id],
+        course_id: params[:course_id],
         title: params[:title],
-        complete: params[:complete]
+        complete: false
       )
 
     # Add if statement eventually
-    @lab.save
+    if current_teacher
+      @lab.save
+    end
     render 'show.json.jbuilder'
   end
 
@@ -35,12 +44,18 @@ class Api::LabsController < ApplicationController
     @lab.complete = params[:complete] || @lab.complete
 
     # Add an if statement
-    @lab.save
+    if current_teacher
+      @lab.save
+    end
+    render 'show.json.jbuilder'
   end
 
   def destroy
     @lab = Lab.find_by(id: params[:id])
-    @lab.destroy
+    if current_teacher
+      @lab.destroy
+    end
+    
     render json: { message: 'Lab deleted' }
   end
 end
