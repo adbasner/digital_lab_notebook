@@ -371,8 +371,6 @@ Lab Crud
         <!-- <input type="text" name="section-data"> -->
       </div>
       <div v-if="section.student_can_edit && role == 'student'">
-        
-        <input type="text" class="form-control" name="section-data">
         <div>
           <a class="btn btn-primary" v-bind:href="'/#/labs/' + lab.id + '/notebook/' + section.id + '/notebookdata/new'">Enter Data</a>
         </div>
@@ -506,7 +504,7 @@ Notebook Section Crud
       <div class="form-group">
         <h4>{{ heading }}</h4>
         <p>{{ datum }}</p>
-        <label>Lab Name:</label> 
+        <label>Enter Data:</label> 
         <input type="textarea" class="form-control" v-model="notebookData">
       </div>
       <button class="btn btn-primary" v-on:click="submit()">Submit</button>

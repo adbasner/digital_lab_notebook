@@ -25,6 +25,8 @@ Rails.application.routes.draw do
     delete '/notebook_sections/:id' => 'notebook_sections#destroy'
 
     # notebook data
+    get '/notebook_data' => 'notebook_data#index'
+    get '/notebook_data/:id' => 'notebook_data#show'
     post '/notebook_data' => 'notebook_data#create'
 
     # students

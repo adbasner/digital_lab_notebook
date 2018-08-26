@@ -251,12 +251,53 @@ var LabsShowPage = {
     };
   },
   created: function() {
+    var sections = [];
     axios.get("/api/labs/" + this.$route.params.id).then(function(response) {
-      console.log(response.data);
+      // console.log(response.data.notebook_sections.length);
       this.lab = response.data;
       this.notebookSections = response.data.notebook_sections;
+      // for (var i = 0; i < response.data.notebook_sections.length; i++) {
+      //   // console.log(response.data.notebook_sections[i]);
+      //   var nbsObj = {};
+      //   nbsObj.heading = response.data.notebook_sections[i].heading;    
+      //   nbsObj.datum = response.data.notebook_sections[i].datum;    
+      //   nbsObj.id = response.data.notebook_sections[i].id;
+      //   axios.get("/api/notebook_sections/" + nbsObj.id).then(
+      //     function(response) {
+      //       console.log("Inside 2nd request");
+      //       // console.log(response.data);
+      //       this.notebookData = response.data.notebook_data;
+      //       console.log(this.notebookData);
+      //       // this.notebookData.section = response.data.notebook_data;
+      //     }.bind(this));
+      //   nbsObj.notebookData = this.notebookData;
+      //   // console.log(nbsObj.notebookData);
+      //   console.log('outside of 2nd request');
+      //   console.log(nbsObj.notebookData);
+      //   this.notebookSections[i] = nbsObj;
+      // }
+      // console.log(this.notebookSections);
+      // console.log(this.notebookSections);
+      
+      // sections = response.data.notebook_sections;
+      // // console.log(sections.length);
+      // for (var i = 0; i < sections.length; i++) {
+      //   var section = sections[i].id;
+      //   // console.log("hello");
+      //   // console.log(sections[i].id);
+      //   axios.get("/api/notebook_sections/" + sections[i].id).then(
+      //     function(response) {
+      //       // console.log("Inside 2nd request");
+      //       // console.log(response.data);
+            
+      //       this.notebookData.section = response.data.notebook_data;
+      //     }.bind(this));
+      // }
+      // console.log(this.notebookData);
+
       this.role = response.data.role;
     }.bind(this));
+    
   },
   methods: {},
   computed: {}

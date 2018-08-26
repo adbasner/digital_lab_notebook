@@ -1,3 +1,4 @@
 json.id notebook_datum.id
 json.student_id notebook_datum.student_id
 json.notebook_section_id notebook_datum.notebook_section_id
+json.datum notebook_datum.datum

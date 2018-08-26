@@ -17,6 +17,7 @@ class Api::LabsController < ApplicationController
       @role = 'teacher'
     elsif current_student
       @role = 'student'
+      # here!
     else
       @role = 'Not logged in.'
     end
