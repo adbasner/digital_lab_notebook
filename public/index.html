@@ -361,10 +361,24 @@ Lab Crud
     <hr>
     <div v-for="section in notebookSections">
       <h4> {{ section.heading }} </h4>
-      <div v-if="section.student_can_edit">
-        <input type="text" name="section-data">
+      <p>{{ section.datum }}</p>
+      <div v-if="role == 'teacher'">
+        <a class="btn btn-info" v-bind:href="'/#/labs/' + lab.id + '/notebook/' + section.id + '/edit'">Edit</a>
+        <a class="btn btn-danger" v-bind:href="'/#/labs/' + lab.id + '/notebook/' + section.id + '/delete'" >Delete</a>
       </div>
-      <p v-else>{{ section.data }}</p>
+      <div v-if="section.student_can_edit && role == 'teacher'">
+        Students will be able to enter their results here.
+        <!-- <input type="text" name="section-data"> -->
+      </div>
+      <div v-if="section.student_can_edit && role == 'student'">
+        
+        <input type="text" class="form-control" name="section-data">
+        <div>
+          <a class="btn btn-primary" v-bind:href="'/#/labs/' + lab.id + '/notebook/' + section.id + '/notebookdata/new'">New Entry</a>
+<!--           <a class="btn btn-primary" v-bind:href="'/#/labs/' + lab.id + '/notebook/' + section.id + '/notebookdata/'  'edit'">Edit Entry</a> -->
+        </div>
+          
+      </div>
       <hr>
     </div>
   </div>
@@ -431,8 +445,34 @@ Notebook Section Crud
         <input type="text" class="form-control" v-model="heading">
       </div>
       <div class="form-group">
+        <label>Section Info: (You can leave it blank to let students fill it in)</label> 
+        <input type="textarea" rows="5" class="form-control" v-model="datum">
+      </div>
+      <p>Can the student enter data in this section?</p>
+      <div class="form-group">
+        <label class="radio-inline"><input type="radio" value=false v-model="canEdit"> Can not Edit</label>
+        <label class="radio-inline"><input type="radio" value=true v-model="canEdit"> Can Edit</label>
+      </div>
+      
+      <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+    </div>
+  </div>
+</template>
+
+<template id="notebook-section-edit-page">
+  <div class="vue-component">
+    <div class="container">
+      <h2>Edit a section</h2>
+      <ul>
+        <li class="text-danger" v-for="error in errors">{{ error }}</li>
+      </ul>
+      <div class="form-group">
+        <label>Section Heading:</label> 
+        <input type="text" class="form-control" v-model="heading">
+      </div>
+      <div class="form-group">
         <label>Section Data: (You can leave it blank to let students fill it in)</label> 
-        <input type="textarea" rows="5" class="form-control" v-model="datas">
+        <input type="textarea" rows="5" class="form-control" v-model="datum">
       </div>
       <p>Can the student edit this section?</p>
       <div class="form-group">
@@ -441,6 +481,18 @@ Notebook Section Crud
       </div>
       
       <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+    </div>
+  </div>
+</template>
+
+<template id="notebook-section-delete-page">
+  <div class="vue-component">
+    <div class="container">
+      <h3>Delete this section?</h3>
+      <h4>{{ heading }}</h4>
+      <p>{{ datum }}</p>
+      <a v-bind:href="'/#/labs/' + labId" class="btn btn-success">No</a>
+      <button class="btn btn-danger" v-on:click="submit()">Yes</button>
     </div>
   </div>
 </template>

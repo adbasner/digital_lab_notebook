@@ -14,7 +14,7 @@ class Api::NotebookSectionsController < ApplicationController
         lab_id: params[:lab_id],
         # priority: params[:priority],
         heading: params[:heading],
-        data: params[:data],
+        datum: params[:datum],
         student_can_edit: params[:student_can_edit]
       )
 
@@ -31,7 +31,7 @@ class Api::NotebookSectionsController < ApplicationController
     @notebook_section.lab_id = params[:lab_id] || @notebook_section.lab_id
     @notebook_section.priority = params[:priority] || @notebook_section.priority
     @notebook_section.heading = params[:heading] || @notebook_section.heading
-    @notebook_section.data = params[:data] || @notebook_section.data
+    @notebook_section.datum = params[:datum] || @notebook_section.datum
     @notebook_section.student_can_edit = params[:student_can_edit] || @notebook_section.student_can_edit
 
     # Add an if statement

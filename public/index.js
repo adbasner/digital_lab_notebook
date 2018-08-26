@@ -341,20 +341,19 @@ var NoteboookSectionNewPage = {
   data: function() {
     return {
       heading: "",
-      datas: "",
+      datum: "",
       canEdit: "",
       errors: []
     };
   },
   created: function() {
-    console.log(this.$route);
   },
   methods: {
     submit: function() {
       console.log("Clicked submit");
       var params = {
         heading: this.heading,
-        data: this.datas,
+        datum: this.datum,
         student_can_edit: this.canEdit,
         lab_id: this.$route.params.id
       };
@@ -375,6 +374,132 @@ var NoteboookSectionNewPage = {
   computed: {}
 };
 
+var NoteboookSectionEditPage = {
+  template: "#notebook-section-edit-page",
+  data: function() {
+    return {
+      heading: "",
+      datum: "",
+      canEdit: "",
+      errors: []
+    };
+  },
+  created: function() {
+    // console.log(this.$route);
+    console.log("In edit page");
+    axios.get("/api/notebook_sections/" + this.$route.params.nbsid).then(function(response) {
+      console.log(response.data);
+      this.heading = response.data.heading;
+      this.datum = response.data.datum;
+      this.canEdit = response.data.student_can_edit;
+    }.bind(this));
+  },
+  methods: {
+    submit: function() {
+      console.log("Clicked submit");
+      var params = {
+        heading: this.heading,
+        datum: this.datum,
+        student_can_edit: this.canEdit,
+        lab_id: this.$route.params.id
+      };
+      console.log(params);
+
+      axios
+        .patch("/api/notebook_sections/" + this.$route.params.nbsid, params)
+        .then(function(response) {
+          router.push("/labs/" + this.$route.params.id);
+        }.bind(this))
+        .catch(
+          function(error) {
+            error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  },
+  computed: {}
+};
+
+var NoteboookSectionDeletePage = {
+  template: "#notebook-section-delete-page",
+  data: function() {
+    return {
+      heading: "",
+      datum: "",
+      canEdit: "",
+      labId: "",
+      nbsId: "",
+      errors: []
+    };
+  },
+  created: function() {
+    console.log("In delete page");
+    axios.get("/api/notebook_sections/" + this.$route.params.nbsid).then(function(response) {
+      console.log(response.data);
+      this.heading = response.data.heading;
+      this.datum = response.data.datum;
+      this.canEdit = response.data.student_can_edit;
+      this.labId = this.$route.params.id;
+      this.nbsId = this.$route.params.nbsid;
+
+    }.bind(this));
+  },
+  methods: {
+    submit: function() {
+      console.log("Clicked submit");
+
+      axios
+        .delete("/api/notebook_sections/" + this.nbsId)
+        .then(function(response) {
+          router.push("/labs/" + this.labId);
+        }.bind(this))
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  },
+  computed: {}
+};
+
+var NoteboookDataNewPage = {
+  template: "#notebook-data-new-page",
+  data: function() {
+    datum: "",
+     // "notebook_section_id"
+    };
+  },
+  created: function() {
+    console.log("In delete page");
+    axios.get("/api/notebook_sections/" + this.$route.params.nbsid).then(function(response) {
+      console.log(response.data);
+      this.heading = response.data.heading;
+      this.datum = response.data.datum;
+      this.canEdit = response.data.student_can_edit;
+      this.labId = this.$route.params.id;
+      this.nbsId = this.$route.params.nbsid;
+
+    }.bind(this));
+  },
+  methods: {
+    submit: function() {
+      console.log("Clicked submit");
+
+      axios
+        .delete("/api/notebook_sections/" + this.nbsId)
+        .then(function(response) {
+          router.push("/labs/" + this.labId);
+        }.bind(this))
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  },
+  computed: {}
+}
 
 // ******************************
 // Authentication
@@ -547,7 +672,10 @@ var router = new VueRouter({
     { path: "/labs/:id", component: LabsShowPage },
     { path: "/labs/:id/edit", component: LabsEditPage },
     { path: "/labs/:id/delete", component: LabsDeletePage },
-    { path: "/labs/:id/notebook/new", component: NoteboookSectionNewPage }
+    { path: "/labs/:id/notebook/new", component: NoteboookSectionNewPage },
+    { path: "/labs/:id/notebook/:nbsid/edit", component: NoteboookSectionEditPage },
+    { path: "/labs/:id/notebook/:nbsid/delete", component: NoteboookSectionDeletePage },
+    { path: "/labs/:id/notebook/:nbsid/notebookdata/new", component: NoteboookDataNewPage },
 
   ], 
   scrollBehavior: function(to, from, savedPosition) {
