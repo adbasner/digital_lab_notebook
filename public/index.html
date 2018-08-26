@@ -374,8 +374,7 @@ Lab Crud
         
         <input type="text" class="form-control" name="section-data">
         <div>
-          <a class="btn btn-primary" v-bind:href="'/#/labs/' + lab.id + '/notebook/' + section.id + '/notebookdata/new'">New Entry</a>
-<!--           <a class="btn btn-primary" v-bind:href="'/#/labs/' + lab.id + '/notebook/' + section.id + '/notebookdata/'  'edit'">Edit Entry</a> -->
+          <a class="btn btn-primary" v-bind:href="'/#/labs/' + lab.id + '/notebook/' + section.id + '/notebookdata/new'">Enter Data</a>
         </div>
           
       </div>
@@ -497,3 +496,20 @@ Notebook Section Crud
   </div>
 </template>
 
+<template id="notebook-data-new-page">
+  <div class="vue-component">
+    <div class="container">
+      <h2>Add Data to this section</h2>
+      <ul>
+        <li class="text-danger" v-for="error in errors">{{ error }}</li>
+      </ul>
+      <div class="form-group">
+        <h4>{{ heading }}</h4>
+        <p>{{ datum }}</p>
+        <label>Lab Name:</label> 
+        <input type="textarea" class="form-control" v-model="notebookData">
+      </div>
+      <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+    </div>
+  </div>
+</template>

@@ -24,6 +24,9 @@ Rails.application.routes.draw do
     patch '/notebook_sections/:id' => 'notebook_sections#update'
     delete '/notebook_sections/:id' => 'notebook_sections#destroy'
 
+    # notebook data
+    post '/notebook_data' => 'notebook_data#create'
+
     # students
     post '/students' => 'students#create'
     # patch '/students/:id' => 'students#update'

@@ -466,8 +466,12 @@ var NoteboookSectionDeletePage = {
 var NoteboookDataNewPage = {
   template: "#notebook-data-new-page",
   data: function() {
-    datum: "",
-     // "notebook_section_id"
+    return {
+      datum: "",
+      errors: [],
+      heading: "",
+      notebookData: ""
+      // "notebook_section_id"
     };
   },
   created: function() {
@@ -485,21 +489,26 @@ var NoteboookDataNewPage = {
   methods: {
     submit: function() {
       console.log("Clicked submit");
+      var params = {
+        datum: this.notebookData,
+        notebook_section_id: this.nbsId
+      };
+      console.log(params);
 
       axios
-        .delete("/api/notebook_sections/" + this.nbsId)
+        .post("/api/notebook_data", params)
         .then(function(response) {
           router.push("/labs/" + this.labId);
         }.bind(this))
         .catch(
           function(error) {
-            this.errors = error.response.data.errors;
+            error.response.data.errors;
           }.bind(this)
         );
     }
   },
   computed: {}
-}
+  };
 
 // ******************************
 // Authentication
