@@ -15,7 +15,7 @@
   <script src="index.js" defer></script>
 </head>
 
-<body>
+<body class="bg">
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
       <a class="navbar-brand" href="#">Digital Lab Notebook</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,7 +76,7 @@ Authentication
 ************************** -->
 
 <template id="home-page">
-  <div class="vue-component bg">
+  <div class="vue-component">
     <div class="home-page-welcome">
       <h1>{{ message1 }}</h1>
       <h3>{{ message2 }}</h3>
@@ -265,60 +265,65 @@ Course Crud
 </template>
 
 <template id="courses-show-page">
-  <div class="vue-component">
+  <div class="container">
     
-    <h2>{{ course.name }}</h2>
-    <a href="/#/courses/" class="btn btn-primary">Go Back</a>
-    <ul>
-      <li class="text-danger" v-for="error in errors">{{ error }}</li>
-    </ul>
-    <hr>
-
-    <!-- <div v-if="role !== 'teacher'"> -->
-      <p v-if="role !== 'teacher'">Teacher: {{ course.teacher_full_name }} </p>
-      <p v-if="role !== 'teacher'">Teacher email: {{ course.teacher_email }} </p>
-    <!-- </div> -->
-    <h4>Course Description</h4> 
-    <p>{{ course.description }}</p>
-    <div v-if="role == 'teacher'">
-      <a class="btn btn-info" v-bind:href="'/#/courses/' + course.id + '/edit'">Edit this course</a>
-      <a class="btn btn-danger" v-bind:href="'/#/courses/' + course.id + '/delete'">Delete this course</a>
-    </div>
-    <hr>
-    <h4>Labs in this course</h4>
-    <hr>
-    <div v-if="role == 'teacher'">
-      <a class="btn btn-success" v-bind:href="'/#/labs/new?course=' + course.id">Add a Lab</a>
-    </div>
-    <hr>
-    <div v-for="lab in labs">
-      <p> {{ lab.title }} </p>
-      <a v-bind:href="'/#/labs/' + lab.id" class="btn btn-primary">View Lab</a>
+    <div class="vue-component">
+      
+      <h2>{{ course.name }}</h2>
+      <a href="/#/courses/" class="btn btn-primary">Go Back</a>
+      <ul>
+        <li class="text-danger" v-for="error in errors">{{ error }}</li>
+      </ul>
       <hr>
+
+      <!-- <div v-if="role !== 'teacher'"> -->
+        <p v-if="role !== 'teacher'">Teacher: {{ course.teacher_full_name }} </p>
+        <p v-if="role !== 'teacher'">Teacher email: {{ course.teacher_email }} </p>
+      <!-- </div> -->
+      <h4>Course Description</h4> 
+      <p>{{ course.description }}</p>
+      <div v-if="role == 'teacher'">
+        <a class="btn btn-info" v-bind:href="'/#/courses/' + course.id + '/edit'">Edit this course</a>
+        <a class="btn btn-danger" v-bind:href="'/#/courses/' + course.id + '/delete'">Delete this course</a>
+      </div>
+      <hr>
+      <h4>Labs in this course</h4>
+      <hr>
+      <div v-if="role == 'teacher'">
+        <a class="btn btn-success" v-bind:href="'/#/labs/new?course=' + course.id">Add a Lab</a>
+      </div>
+      <hr>
+      <div v-for="lab in labs">
+        <p> {{ lab.title }} </p>
+        <a v-bind:href="'/#/labs/' + lab.id" class="btn btn-primary">View Lab</a>
+        <hr>
+      </div>
     </div>
   </div>
 </template>
 
 <template id="courses-join-page">
-  <div class="vue-component">
-    <a href="/#/courses/" class="btn btn-primary">Return to all courses</a>
-    <h2>Course Info</h2>
-    <ul>
-      <li class="text-danger" v-for="error in errors">{{ error }}</li>
-    </ul>
-    <hr>
+  <div class="container">
+    <div class="vue-component">
+      <a href="/#/courses/" class="btn btn-primary">Return to all courses</a>
+      <h2>Course Info</h2>
+      <ul>
+        <li class="text-danger" v-for="error in errors">{{ error }}</li>
+      </ul>
+      <hr>
 
-    <h4> {{ course.name }} </h4>
-    <p>Teacher: {{ course.teacher_full_name }} </p>
-    <p>Teacher email: {{ course.teacher_email }} </p>
-    <p>Course Description {{ course.description }}</p>
+      <h4> {{ course.name }} </h4>
+      <p>Teacher: {{ course.teacher_full_name }} </p>
+      <p>Teacher email: {{ course.teacher_email }} </p>
+      <p>Course Description {{ course.description }}</p>
 
+      
+      <button v-on:click="submit()" class="btn btn-primary">Join</button>
+      <hr>
     
-    <button v-on:click="submit()" class="btn btn-primary">Join</button>
-    <hr>
-  
 
-    <!-- </div> -->
+      <!-- </div> -->
+    </div>
   </div>
 </template>
 
@@ -366,12 +371,12 @@ Course Crud
 
 <template id="courses-delete-page">
   <div class="vue-component">
-    <h2>{{ course.name }}</h2>
-    <h3>Delete this lab?</h3>
-    <a v-bind:href="'/#/courses/' + course.id" class="btn btn-success">No</a>
-    <button class="btn btn-danger" v-on:click="submit()">Yes</button>
-
-
+    <div class="container">
+      <h2>{{ course.name }}</h2>
+      <h3>Delete this lab?</h3>
+      <a v-bind:href="'/#/courses/' + course.id" class="btn btn-success">No</a>
+      <button class="btn btn-danger" v-on:click="submit()">Yes</button>
+    </div>
   </div>
 </template>
 
@@ -381,45 +386,48 @@ Lab Crud
 
 <template id="labs-show-page">
   <div class="vue-component">
-    <h2>{{ lab.title }}</h2>
-    <hr>
-    <div v-if="role == 'teacher'">
-      <a class="btn btn-info" v-bind:href="'/#/labs/' + lab.id + '/edit'">Edit this lab</a>
-      <a class="btn btn-danger" v-bind:href="'/#/labs/' + lab.id + '/delete'">Delete this lab</a>
-    </div>
-    <hr>
-    <div v-if="role == 'teacher'">
-      <a class="btn btn-success" v-bind:href="'/#/labs/' + lab.id + '/notebook/new'">Add a section</a>
-    </div>
-    <hr>
-    <div v-for="section in notebookSections">
-      <h4> {{ section.heading }} </h4>
-      <p>{{ section.datum }}</p>
-      <ul v-for="datum in section.notebook_data">
-        <li>{{ datum }} </li>
-        
-      </ul>
+    <div class="container">
+      
+      <h2>{{ lab.title }}</h2>
+      <hr>
       <div v-if="role == 'teacher'">
-        <a class="btn btn-info" v-bind:href="'/#/labs/' + lab.id + '/notebook/' + section.id + '/edit'">Edit</a>
-        <a class="btn btn-danger" v-bind:href="'/#/labs/' + lab.id + '/notebook/' + section.id + '/delete'" >Delete</a>
-      </div>
-      <div v-if="section.student_can_edit && role == 'teacher'">
-        Students will be able to enter their results here.
-        <!-- <input type="text" name="section-data"> -->
-      </div>
-      <div v-if="section.student_can_edit && role == 'student'">
-       <!--  <div v-for="notebookSection in Sections">
-          
-        </div> -->
-
-
-
-        <div>
-          <a class="btn btn-primary" v-bind:href="'/#/labs/' + lab.id + '/notebook/' + section.id + '/notebookdata/new'">Enter Data</a>
-        </div>
-          
+        <a class="btn btn-info" v-bind:href="'/#/labs/' + lab.id + '/edit'">Edit this lab</a>
+        <a class="btn btn-danger" v-bind:href="'/#/labs/' + lab.id + '/delete'">Delete this lab</a>
       </div>
       <hr>
+      <div v-if="role == 'teacher'">
+        <a class="btn btn-success" v-bind:href="'/#/labs/' + lab.id + '/notebook/new'">Add a section</a>
+      </div>
+      <hr>
+      <div v-for="section in notebookSections">
+        <h4> {{ section.heading }} </h4>
+        <p>{{ section.datum }}</p>
+        <ul v-for="datum in section.notebook_data">
+          <li>{{ datum }} </li>
+          
+        </ul>
+        <div v-if="role == 'teacher'">
+          <a class="btn btn-info" v-bind:href="'/#/labs/' + lab.id + '/notebook/' + section.id + '/edit'">Edit</a>
+          <a class="btn btn-danger" v-bind:href="'/#/labs/' + lab.id + '/notebook/' + section.id + '/delete'" >Delete</a>
+        </div>
+        <div v-if="section.student_can_edit && role == 'teacher'">
+          Students will be able to enter their results here.
+          <!-- <input type="text" name="section-data"> -->
+        </div>
+        <div v-if="section.student_can_edit && role == 'student'">
+         <!--  <div v-for="notebookSection in Sections">
+            
+          </div> -->
+
+
+
+          <div>
+            <a class="btn btn-primary" v-bind:href="'/#/labs/' + lab.id + '/notebook/' + section.id + '/notebookdata/new'">Enter Data</a>
+          </div>
+            
+        </div>
+        <hr>
+      </div>
     </div>
   </div>
 </template>
@@ -460,10 +468,13 @@ Lab Crud
 
 <template id="labs-delete-page">
   <div class="vue-component">
-    <h2>{{ lab.title }}</h2>
-    <h3>Delete this lab?</h3>
-    <a v-bind:href="'/#/labs/' + lab.id" class="btn btn-success">No</a>
-    <button class="btn btn-danger" v-on:click="submit()">Yes</button>
+    <div class="container">
+      
+      <h2>{{ lab.title }}</h2>
+      <h3>Delete this lab?</h3>
+      <a v-bind:href="'/#/labs/' + lab.id" class="btn btn-success">No</a>
+      <button class="btn btn-danger" v-on:click="submit()">Yes</button>
+    </div>
 
 
   </div>
