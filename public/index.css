@@ -10,7 +10,7 @@ body {
   /*height: 6vh;*/
 }
 .bg {
-  height: 50vh;
+  height: 100%;
   position: relative;
   background-image: url('images/jar.jpg');
   background-size: cover;
@@ -29,7 +29,13 @@ body {
 .home-page-row {
   /*position: absolute;*/
   /*top: 35vh;*/
-  /*margin-top: 160px;*/
+  margin: 100px auto;
+
+
+}
+
+.card {
+    margin-top: 20px;
 }
 
 
