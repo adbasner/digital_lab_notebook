@@ -1,6 +1,9 @@
 class Api::LabsController < ApplicationController
   def index
     @labs = Lab.where(course_id: params[:course_id])
+
+    
+
     if current_teacher
       @role = 'teacher'
     elsif current_student
@@ -13,9 +16,74 @@ class Api::LabsController < ApplicationController
 
   def show
     @lab = Lab.find_by(id: params[:id])
+    # @notebook_sections = @lab.notebook_sections
+    @notebook_sections = []
+    @nbs = @lab.notebook_sections
+    # @nbs.each do |nbs|
+    #   nbs_hash = {
+    #     id: nbs.id,
+    #     lab_id: nbs.lab_id,
+    #     priority: nbs.priority,
+    #     heading: nbs.heading,
+    #     datum: nbs.datum,
+    #     student_can_edit: nbs.student_can_edit
+    #   }
+    #   student_id = ""
+    #   nbdata = []
+    #   nbs.notebook_data.each do |nbd| 
+    #     student_id = nbd.student_id
+    #     p student_id
+    #     nbdata << nbd.datum
+    #   end
+    #   nbs_hash[:notebook_data] = nbdata
+    #   p nbs_hash
+    #   @notebook_sections << nbs_hash
+    # end
+
     if current_teacher
+      @nbs.each do |nbs|
+        nbs_hash = {
+          id: nbs.id,
+          lab_id: nbs.lab_id,
+          priority: nbs.priority,
+          heading: nbs.heading,
+          datum: nbs.datum,
+          student_can_edit: nbs.student_can_edit
+        }
+
+        nbdata = []
+        nbs.notebook_data.each do |nbd| 
+          nbdata << nbd.datum
+        end
+        nbs_hash[:notebook_data] = nbdata
+        p nbs_hash
+        @notebook_sections << nbs_hash
+      end
       @role = 'teacher'
     elsif current_student
+      @nbs.each do |nbs|
+        nbs_hash = {
+          id: nbs.id,
+          lab_id: nbs.lab_id,
+          priority: nbs.priority,
+          heading: nbs.heading,
+          datum: nbs.datum,
+          student_can_edit: nbs.student_can_edit
+        }
+
+        nbdata = []
+
+        note_book_data = NotebookDatum.where(student_id: current_student.id, notebook_section_id: nbs.id)
+
+        note_book_data.each do |nbd|
+          nbdata << nbd.datum
+        end
+
+        nbs_hash[:notebook_data] = nbdata
+
+        @notebook_sections << nbs_hash
+      end
+
       @role = 'student'
       # here!
     else

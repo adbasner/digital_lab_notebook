@@ -1,0 +1,58 @@
+body {
+  height: 100%;
+}
+
+.container {
+  height: 100%;
+}
+
+.navbar {
+  /*height: 6vh;*/
+}
+.bg {
+  height: 50vh;
+  position: relative;
+  background-image: url('images/jar.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.home-page-welcome {
+  width: 60%;
+  margin: 0 auto;
+  padding-top: 10%;
+  text-align: center;
+  color: #E2E2E2;
+
+}
+
+.home-page-row {
+  /*position: absolute;*/
+  /*top: 35vh;*/
+  /*margin-top: 160px;*/
+}
+
+
+/*#bg { 
+  position: fixed; 
+  top: -50%; 
+  left: -50%; 
+  width: 200%; 
+  height: 200%;
+
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -1;
+
+}
+*/
+/*#bg img {
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  margin: auto; 
+  min-width: 50%;
+  min-height: 50%;
+}*/

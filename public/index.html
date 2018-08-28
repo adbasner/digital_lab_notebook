@@ -7,6 +7,7 @@
 
     <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="index.css">
 
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
@@ -55,14 +56,13 @@
       </div>
   </nav>
 
-  <div class="container">
-    <div id="vue-app">
 
-      <router-view></router-view>
+  <div id="vue-app">
 
-    </div>
-    
+    <router-view></router-view>
+
   </div>
+  
 
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -76,11 +76,41 @@ Authentication
 ************************** -->
 
 <template id="home-page">
-  <div class="vue-component">
-
-    <h1>{{ message }}</h1>
-
-  </div>
+  <div class="vue-component bg">
+    <div class="home-page-welcome">
+      <h1>{{ message1 }}</h1>
+      <h3>{{ message2 }}</h3>
+    </div>
+    <div class="container">
+      
+      <div class="row home-page-row">
+        <div class="col-6" >
+          <div class="card">
+            <div class="card-header">
+              Teachers
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Special title treatment</h5>
+              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+              <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-6" >
+          <div class="card">
+            <div class="card-header">
+              Students
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Special title treatment</h5>
+              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+              <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> <!-- vuecomponent -->
 </template>
 
 <template id="teacher-signup-page">
@@ -201,32 +231,35 @@ Course Crud
 
 <template id="courses-page">
   <div class="vue-component">
-    <h2>My Courses</h2>
-    <ul>
-      <li class="text-danger" v-for="error in errors">{{ error }}</li>
-    </ul>
-    <div v-if="role == 'teacher'">
-      <a class="btn btn-success" href="/#/courses/new">Create a course!</a>
-    </div>
-
-    <hr>
-    <div v-for="course in coursesAttending">
-      
-      <h4> {{ course.name }} </h4>
-      <a v-bind:href="'/#/courses/' + course.id" class="btn btn-primary">View Course</a>
-      <hr>
-    </div>
-
-    <div v-if="role == 'student' && coursesNotAttending.length !== 0">
-      <h2>Courses not enrolled in</h2>
-      <hr>
-      <div v-for="course in coursesNotAttending">
-        <h4> {{ course.name }} </h4>
-        <p>Course Description: {{ course.description }}</p>
-        <a v-bind:href="'/#/courses/' + course.id + '/join'" class="btn btn-primary">View Course</a>
-        <hr>
-        
+    <div class="container">
+      <h2>My Courses</h2>
+      <ul>
+        <li class="text-danger" v-for="error in errors">{{ error }}</li>
+      </ul>
+      <div v-if="role == 'teacher'">
+        <a class="btn btn-success" href="/#/courses/new">Create a course!</a>
       </div>
+
+      <hr>
+      <div v-for="course in coursesAttending">
+        
+        <h4> {{ course.name }} </h4>
+        <a v-bind:href="'/#/courses/' + course.id" class="btn btn-primary">View Course</a>
+        <hr>
+      </div>
+
+      <div v-if="role == 'student' && coursesNotAttending.length !== 0">
+        <h2>Courses not enrolled in</h2>
+        <hr>
+        <div v-for="course in coursesNotAttending">
+          <h4> {{ course.name }} </h4>
+          <p>Course Description: {{ course.description }}</p>
+          <a v-bind:href="'/#/courses/' + course.id + '/join'" class="btn btn-primary">View Course</a>
+          <hr>
+          
+        </div>
+      </div>
+      
     </div>
   </div>
 </template>
@@ -362,6 +395,10 @@ Lab Crud
     <div v-for="section in notebookSections">
       <h4> {{ section.heading }} </h4>
       <p>{{ section.datum }}</p>
+      <ul v-for="datum in section.notebook_data">
+        <li>{{ datum }} </li>
+        
+      </ul>
       <div v-if="role == 'teacher'">
         <a class="btn btn-info" v-bind:href="'/#/labs/' + lab.id + '/notebook/' + section.id + '/edit'">Edit</a>
         <a class="btn btn-danger" v-bind:href="'/#/labs/' + lab.id + '/notebook/' + section.id + '/delete'" >Delete</a>
@@ -371,6 +408,12 @@ Lab Crud
         <!-- <input type="text" name="section-data"> -->
       </div>
       <div v-if="section.student_can_edit && role == 'student'">
+       <!--  <div v-for="notebookSection in Sections">
+          
+        </div> -->
+
+
+
         <div>
           <a class="btn btn-primary" v-bind:href="'/#/labs/' + lab.id + '/notebook/' + section.id + '/notebookdata/new'">Enter Data</a>
         </div>

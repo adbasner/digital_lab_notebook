@@ -2,7 +2,8 @@ var HomePage = {
   template: "#home-page",
   data: function() {
     return {
-      message: "Welcome to the world's best digital lab notebook"
+      message1: "Welcome to the online digital lab notebook",
+      message2: "A free resource that is ideal for educational lab courses."
     };
   },
   created: function() {},
@@ -253,47 +254,45 @@ var LabsShowPage = {
   created: function() {
     var sections = [];
     axios.get("/api/labs/" + this.$route.params.id).then(function(response) {
-      // console.log(response.data.notebook_sections.length);
-      this.lab = response.data;
+      this.lab = response.data.lab;
+      console.log(response.data);
       this.notebookSections = response.data.notebook_sections;
-      // for (var i = 0; i < response.data.notebook_sections.length; i++) {
-      //   // console.log(response.data.notebook_sections[i]);
-      //   var nbsObj = {};
-      //   nbsObj.heading = response.data.notebook_sections[i].heading;    
-      //   nbsObj.datum = response.data.notebook_sections[i].datum;    
-      //   nbsObj.id = response.data.notebook_sections[i].id;
-      //   axios.get("/api/notebook_sections/" + nbsObj.id).then(
-      //     function(response) {
-      //       console.log("Inside 2nd request");
-      //       // console.log(response.data);
-      //       this.notebookData = response.data.notebook_data;
-      //       console.log(this.notebookData);
-      //       // this.notebookData.section = response.data.notebook_data;
-      //     }.bind(this));
-      //   nbsObj.notebookData = this.notebookData;
-      //   // console.log(nbsObj.notebookData);
-      //   console.log('outside of 2nd request');
-      //   console.log(nbsObj.notebookData);
-      //   this.notebookSections[i] = nbsObj;
-      // }
-      // console.log(this.notebookSections);
-      // console.log(this.notebookSections);
-      
-      // sections = response.data.notebook_sections;
-      // // console.log(sections.length);
-      // for (var i = 0; i < sections.length; i++) {
-      //   var section = sections[i].id;
-      //   // console.log("hello");
-      //   // console.log(sections[i].id);
-      //   axios.get("/api/notebook_sections/" + sections[i].id).then(
-      //     function(response) {
-      //       // console.log("Inside 2nd request");
-      //       // console.log(response.data);
-            
-      //       this.notebookData.section = response.data.notebook_data;
-      //     }.bind(this));
-      // }
-      // console.log(this.notebookData);
+
+
+    // # @notebook_sections = []
+    // # @nbs = @lab.notebook_sections
+    // # @nbs.each do |nbs|
+    // #   nbs_hash = {
+    // #     id: nbs.id,
+    // #     lab_id: nbs.lab_id,
+    // #     priority: nbs.priority,
+    // #     heading: nbs.heading,
+    // #     datum: nbs.datum,
+    // #     student_can_edit: nbs.student_can_edit
+    // #   }
+    // #   student_id = ""
+    // #   nbdata = []
+    // #   nbs.notebook_data.each do |nbd| 
+    // #     student_id = nbd.student_id
+    // #     p student_id
+    // #     nbdata << nbd.datum
+    // #   end
+    // #   nbs_hash[:notebook_data] = nbdata
+    // #   p nbs_hash
+    // #   @notebook_sections << nbs_hash
+    // # end
+
+
+
+
+
+
+
+
+
+
+
+
 
       this.role = response.data.role;
     }.bind(this));
@@ -516,7 +515,7 @@ var NoteboookDataNewPage = {
     };
   },
   created: function() {
-    console.log("In delete page");
+    console.log("In new data page");
     axios.get("/api/notebook_sections/" + this.$route.params.nbsid).then(function(response) {
       console.log(response.data);
       this.heading = response.data.heading;
