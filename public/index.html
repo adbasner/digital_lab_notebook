@@ -134,8 +134,8 @@ Authentication
 <template id="teacher-signup-page">
   <div class="vue-component">
 
-    <div class="container">
-      <h1>Signup</h1>
+    <div class="container new-form">
+      <h1>Teacher Signup</h1>
       <ul>
         <li class="text-danger" v-for="error in errors">{{ error }}</li>
       </ul>
@@ -168,8 +168,8 @@ Authentication
 <template id="student-signup-page">
   <div class="vue-component">
 
-    <div class="container">
-      <h1>Signup</h1>
+    <div class="container new-form">
+      <h1>Student Signup</h1>
       <ul>
         <li class="text-danger" v-for="error in errors">{{ error }}</li>
       </ul>
@@ -202,7 +202,7 @@ Authentication
 <template id="teacher-login-page">
   <div class="vue-component">
 
-    <div class="container">
+    <div class="container new-form">
       <h1>Teacher Login</h1>
       <ul>
         <li class="text-danger" v-for="error in errors">{{ error }}</li>
@@ -224,7 +224,7 @@ Authentication
 <template id="student-login-page">
   <div class="vue-component">
 
-    <div class="container">
+    <div class="container new-form">
       <h1>Student Login</h1>
       <ul>
         <li class="text-danger" v-for="error in errors">{{ error }}</li>
@@ -250,7 +250,7 @@ Course Crud
 <template id="courses-page">
   <div class="vue-component">
     <div class="container">
-      <div class="row">
+      <div class="row course-heading">
         <div class="col-md-9">
           <h2>My Courses</h2>
           <ul>
@@ -292,96 +292,82 @@ Course Crud
             </div>
           </div>
         </div>
-      </div>
-
-
-
-
-
-<!--       <div v-if="role == 'student' && coursesNotAttending.length !== 0">
-        <h2>Courses not enrolled in</h2>
-        <hr> -->
-<!--         <div v-for="course in coursesNotAttending">
-          <h4> {{ course.name }} </h4>
-          <p>Course Description: {{ course.description }}</p>
-          <a v-bind:href="'/#/courses/' + course.id + '/join'" class="btn btn-primary">View Course</a>
-          <hr>
-          
-        </div>
-      </div> -->
-      
-      
+      </div>   
     </div>
   </div>
 </template>
 
 <template id="courses-show-page">
-  <div class="container">
-    
-    <div class="vue-component">
-      
-      <h2>{{ course.name }}</h2>
-      <a href="/#/courses/" class="btn btn-primary">Go Back</a>
-      <ul>
-        <li class="text-danger" v-for="error in errors">{{ error }}</li>
-      </ul>
-      <hr>
+  <div class="vue-component">
+    <div class="container">
+      <div class="row course-heading">
+        <div class="col-md-9">
+          <h2>{{ course.name }}</h2>
+          <p>{{ course.description }}</p>
+          
+          <p v-if="role !== 'teacher'">Teacher: {{ course.teacher_full_name }} </p>
+          <p v-if="role !== 'teacher'">Teacher email: {{ course.teacher_email }} </p>
+          <ul>
+            <li class="text-danger" v-for="error in errors">{{ error }}</li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <a v-if="role == 'teacher'" class="btn btn-primary new-course-box" v-bind:href="'/#/courses/' + course.id + '/edit'">Edit this course</a>
+          <a v-if="role == 'teacher'" class="btn btn-danger new-course-box" v-bind:href="'/#/courses/' + course.id + '/delete'">Delete this course</a>
+        </div>
+      </div> <!-- row -->
 
-      <!-- <div v-if="role !== 'teacher'"> -->
-        <p v-if="role !== 'teacher'">Teacher: {{ course.teacher_full_name }} </p>
-        <p v-if="role !== 'teacher'">Teacher email: {{ course.teacher_email }} </p>
-      <!-- </div> -->
-      <h4>Course Description</h4> 
-      <p>{{ course.description }}</p>
-      <div v-if="role == 'teacher'">
-        <a class="btn btn-info" v-bind:href="'/#/courses/' + course.id + '/edit'">Edit this course</a>
-        <a class="btn btn-danger" v-bind:href="'/#/courses/' + course.id + '/delete'">Delete this course</a>
+      <div class="row course-heading">
+        <div class="col-md-9">
+          <h3>Labs in this course</h3>
+        </div>
+        <div class="col-md-3">
+          <a v-if="role == 'teacher'" class="btn btn-success new-course-box" v-bind:href="'/#/labs/new?course=' + course.id">Add a Lab</a>
+        </div>
+      </div> <!-- row -->
+
+      <div class="row">
+        <div v-for="lab in labs" class="col-md-3">
+          <div class="card course-card">
+            <div class="card-body">
+              <h5 class="card-title">{{ lab.title }}</h5>
+              
+              <a v-bind:href="'/#/labs/' + lab.id" class="btn btn-primary course-card-button">View Lab</a>
+            </div>
+          </div>
+        </div>
       </div>
-      <hr>
-      <h4>Labs in this course</h4>
-      <hr>
-      <div v-if="role == 'teacher'">
-        <a class="btn btn-success" v-bind:href="'/#/labs/new?course=' + course.id">Add a Lab</a>
-      </div>
-      <hr>
-      <div v-for="lab in labs">
-        <p> {{ lab.title }} </p>
-        <a v-bind:href="'/#/labs/' + lab.id" class="btn btn-primary">View Lab</a>
-        <hr>
-      </div>
-    </div>
-  </div>
+    </div> <!-- container -->
+  </div> <!-- vuecomponent -->
 </template>
 
 <template id="courses-join-page">
-  <div class="container">
-    <div class="vue-component">
-      <a href="/#/courses/" class="btn btn-primary">Return to all courses</a>
-      <h2>Course Info</h2>
-      <ul>
-        <li class="text-danger" v-for="error in errors">{{ error }}</li>
-      </ul>
-      <hr>
-
-      <h4> {{ course.name }} </h4>
-      <p>Teacher: {{ course.teacher_full_name }} </p>
-      <p>Teacher email: {{ course.teacher_email }} </p>
-      <p>Course Description {{ course.description }}</p>
-
-      
-      <button v-on:click="submit()" class="btn btn-primary">Join</button>
-      <hr>
-    
-
-      <!-- </div> -->
+  <div class="vue-component">
+    <div class="container">
+      <div class="row course-heading">
+        <div class="col-md-9">
+          <h2>{{ course.name }}</h2>
+          <p>{{ course.description }}</p>
+          <p v-if="role !== 'teacher'">Teacher: {{ course.teacher_full_name }} </p>
+          <p v-if="role !== 'teacher'">Teacher email: {{ course.teacher_email }} </p>
+          <ul>
+            <li class="text-danger" v-for="error in errors">{{ error }}</li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h3>Join this course?</h3>
+          <button v-on:click="submit()" class="btn btn-success new-course-box">Join</button>
+          <a href="/#/courses/" class="btn btn-primary new-course-box">Return to courses</a>
+        </div>
+      </div> <!-- row -->
     </div>
   </div>
 </template>
 
 <template id="courses-new-page">
   <div class="vue-component">
-    <div class="container">
-      <h1>Signup</h1>
+    <div class="container new-form">
+      <h1>Create a new course</h1>
       <ul>
         <li class="text-danger" v-for="error in errors">{{ error }}</li>
       </ul>
@@ -391,7 +377,7 @@ Course Crud
       </div>
       <div class="form-group">
         <label>Description:</label> 
-        <input type="text" class="form-control" v-model="description">
+        <textarea class="form-control" v-model="description" rows="3" ></textarea>
       </div>
       <button class="btn btn-primary" v-on:click="submit()">Submit</button>
     </div>
@@ -401,7 +387,7 @@ Course Crud
 <template id="courses-edit-page">
   <div class="vue-component">
 
-    <div class="container">
+    <div class="container new-form">
       <h1>Edit</h1>
       <ul>
         <li class="text-danger" v-for="error in errors">{{ error }}</li>
@@ -412,7 +398,7 @@ Course Crud
       </div>
       <div class="form-group">
         <label>Description:</label> 
-        <input type="text" class="form-control" v-model="description">
+        <textarea class="form-control" v-model="description" rows="3" ></textarea>
       </div>
       <button class="btn btn-primary" v-on:click="submit()">Submit</button>
     </div>

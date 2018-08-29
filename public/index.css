@@ -61,15 +61,17 @@ body {
   width: 100%;
   text-align: center;
   margin: 0 auto;
+  margin-bottom: 10px;
   /*background-color: red;*/
 }
 
-.new-course-box a {
-  width: 100%;
+.edit-course-box {
+  width: 45%;
 }
+
 .course-card {
   position: relative;
-  height: 200px;
+  height: 250px;
 }
 
 .course-card-button {
@@ -85,26 +87,10 @@ body {
   padding-top: 30px;
 }
 
-/*#bg { 
-  position: fixed; 
-  top: -50%; 
-  left: -50%; 
-  width: 200%; 
-  height: 200%;
-
-  min-width: 100%;
-  min-height: 100%;
-  z-index: -1;
-
+.course-heading {
+  margin-bottom: 50px;
 }
-*/
-/*#bg img {
-  position: absolute; 
-  top: 0; 
-  left: 0; 
-  right: 0; 
-  bottom: 0; 
-  margin: auto; 
-  min-width: 50%;
-  min-height: 50%;
-}*/
+
+.new-form {
+  max-width: 600px;
+}
