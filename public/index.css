@@ -1,49 +1,89 @@
 body {
-  height: 100%;
-  /*color: #E2E2E2;*/
+  background-color: #DDD;
 }
 
 .container {
-  background-color: #EEEEEE;
   margin-top: 20px;
   border-radius: 10px;
   padding: 20px;
+  background-color: #f2f2f2;
 }
 
-.navbar {
-  /*height: 6vh;*/
+#main-nav {
+  background-color: #1789FC;
+  color: #f2f2f2;
 }
-.bg {
-  height: 150%;
+
+.carousel-item {
+  height: 400px;
+}
+
+.carousel-item img {
+  object-fit: cover;
+  height: 100%;
+}
+
+.home-page-carousel {
   position: relative;
-  background-image: url('images/jar.jpg');
-  background-size: cover;
-  background-position: center;
 }
 
-.home-page-welcome {
-  width: 60%;
-  margin: 0 auto;
-  padding-top: 10%;
-  text-align: center;
-  color: #E2E2E2;
-  
+.welcome-text-container {
+  position: absolute;
+  left: 50%;
+  top: 20%;
+  width: 95%;
+}
 
+.welcome-text {
+  position: relative;
+  left: -50%;
+  text-align: center;
+  color: #f2f2f2;
 }
 
 .home-page-row {
-  /*position: absolute;*/
-  /*top: 35vh;*/
-  margin: 100px auto;
-
-
+  margin: 15px auto;
 }
 
 .card {
     margin-top: 20px;
-    /*color: #0C0C0C*/
 }
 
+.card-title {
+  margin: 0;
+}
+
+.btn-primary {
+  background-color: #1789FC
+}
+
+.new-course-box {
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
+  /*background-color: red;*/
+}
+
+.new-course-box a {
+  width: 100%;
+}
+.course-card {
+  position: relative;
+  height: 200px;
+}
+
+.course-card-button {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+.not-enrolled {
+  border-top: solid black 2px;
+  margin-top: 30px;
+  padding-top: 30px;
+}
 
 /*#bg { 
   position: fixed; 
