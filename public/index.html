@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Digital Lab Notebook</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  
+
     <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="index.css">
@@ -327,7 +327,7 @@ Course Crud
       </div> <!-- row -->
 
       <div class="row">
-        <div v-for="lab in labs" class="col-md-3">
+        <div v-for="lab in labs" class="col-md-4">
           <div class="card course-card">
             <div class="card-body">
               <h5 class="card-title">{{ lab.title }}</h5>
@@ -409,12 +409,22 @@ Course Crud
 <template id="courses-delete-page">
   <div class="vue-component">
     <div class="container">
-      <h2>{{ course.name }}</h2>
-      <h3>Delete this lab?</h3>
-      <a v-bind:href="'/#/courses/' + course.id" class="btn btn-success">No</a>
-      <button class="btn btn-danger" v-on:click="submit()">Yes</button>
-    </div>
-  </div>
+      <div class="row course-heading">
+        <div class="col-md-9">
+          <h2>{{ course.name }}</h2>
+          <p>{{ course.description }}</p>
+          <ul>
+            <li class="text-danger" v-for="error in errors">{{ error }}</li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h3>Delete this course?</h3>
+          <a v-bind:href="'/#/courses/' + course.id" class="btn btn-success new-course-box">No</a>
+          <button class="btn btn-danger new-course-box" v-on:click="submit()">Yes</button>
+        </div>
+      </div> <!-- row -->
+    </div> <!-- container -->
+  </div> <!-- vue -->
 </template>
 
 <!-- **************************
@@ -424,63 +434,70 @@ Lab Crud
 <template id="labs-show-page">
   <div class="vue-component">
     <div class="container">
-      
-      <h2>{{ lab.title }}</h2>
-      <hr>
-      <div v-if="role == 'teacher'">
-        <a class="btn btn-info" v-bind:href="'/#/labs/' + lab.id + '/edit'">Edit this lab</a>
-        <a class="btn btn-danger" v-bind:href="'/#/labs/' + lab.id + '/delete'">Delete this lab</a>
-      </div>
-      <hr>
-      <div v-if="role == 'teacher'">
-        <a class="btn btn-success" v-bind:href="'/#/labs/' + lab.id + '/notebook/new'">Add a section</a>
-      </div>
-      <hr>
+      <div class="row course-heading">
+        <div class="col-md-9">
+          <h2>{{ lab.title }}</h2>
+          <ul>
+            <li class="text-danger" v-for="error in errors">{{ error }}</li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <a v-if="role == 'teacher'" class="btn btn-primary new-course-box" v-bind:href="'/#/labs/' + lab.id + '/edit'">Edit this lab</a>
+          <a v-if="role == 'teacher'" class="btn btn-danger new-course-box" v-bind:href="'/#/labs/' + lab.id + '/delete'">Delete this lab</a>
+        </div>
+      </div> <!-- row -->
+
+      <div class="row course-heading">
+        <div class="col-md-9">
+          <h3>{{ lab.title }} Lab Notebook</h3>
+        </div>
+        <div class="col-md-3">
+          <a v-if="role == 'teacher'" class="btn btn-success new-course-box" v-bind:href="'/#/labs/' + lab.id + '/notebook/new'">Add a section</a>
+        </div>
+      </div> <!-- row -->
+
       <div v-for="section in notebookSections">
-        <h4> {{ section.heading }} </h4>
-        <p>{{ section.datum }}</p>
-        <ul v-for="datum in section.notebook_data">
-          <li>{{ datum }} </li>
-          
-        </ul>
-        <div v-if="role == 'teacher'">
-          <a class="btn btn-info" v-bind:href="'/#/labs/' + lab.id + '/notebook/' + section.id + '/edit'">Edit</a>
-          <a class="btn btn-danger" v-bind:href="'/#/labs/' + lab.id + '/notebook/' + section.id + '/delete'" >Delete</a>
-        </div>
-        <div v-if="section.student_can_edit && role == 'teacher'">
-          Students will be able to enter their results here.
-          <!-- <input type="text" name="section-data"> -->
-        </div>
-        <div v-if="section.student_can_edit && role == 'student'">
-         <!--  <div v-for="notebookSection in Sections">
-            
-          </div> -->
-
-
-
-          <div>
-            <a class="btn btn-primary" v-bind:href="'/#/labs/' + lab.id + '/notebook/' + section.id + '/notebookdata/new'">Enter Data</a>
+        <div class="row course-heading">
+          <div class="col-md-9">
+            <h4> {{ section.heading }} </h4>
+            <p>{{ section.datum }}</p>
+            <p v-if="section.student_can_edit && role == 'teacher'">Students will be able to enter data for this section.</p>
+            <div v-if="section.notebook_data.length != 0"  class="row student-data">
+              <div class="col-4 offset-1">
+                <h5 v-if="role == 'teacher'">Student Data</h5>
+                <h5 v-if="role == 'student'">My Data</h5>
+              </div>
+              <div class="col-7">
+                <div v-for="datum in section.notebook_data">
+                  <p>{{ datum }} </p>
+                </div>
+              </div>
+            </div>
           </div>
-            
-        </div>
-        <hr>
-      </div>
-    </div>
-  </div>
+
+          <div class="col-md-3">
+            <a v-if="role == 'teacher'" class="btn btn-primary new-course-box" v-bind:href="'/#/labs/' + lab.id + '/notebook/' + section.id + '/edit'">Edit</a>
+            <a v-if="role == 'teacher'" class="btn btn-danger new-course-box" v-bind:href="'/#/labs/' + lab.id + '/notebook/' + section.id + '/delete'" >Delete</a>
+            <a v-if="section.student_can_edit && role == 'student'" class="btn btn-primary new-course-box" v-bind:href="'/#/labs/' + lab.id + '/notebook/' + section.id + '/notebookdata/new'">Enter Data</a>
+          </div>
+        </div> <!-- row -->
+      </div> <!-- section in nbsections -->
+    </div> <!-- container -->
+  </div> <!-- vue -->
 </template>
 
 <template id="labs-new-page">
   <div class="vue-component">
-    <div class="container">
-      <h1>Create a Lab</h1>
+    <div class="container new-form">
+      <h1>Add a Lab</h1>
       <ul>
         <li class="text-danger" v-for="error in errors">{{ error }}</li>
       </ul>
       <div class="form-group">
-        <label>Lab Name:</label> 
         <input type="text" class="form-control" v-model="labName">
       </div>
       <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+      <a class="btn btn-danger" href="javascript:history.back()">Cancel</a>
     </div>
   </div>
 </template>
@@ -488,7 +505,7 @@ Lab Crud
 <template id="labs-edit-page">
   <div class="vue-component">
 
-    <div class="container">
+    <div class="container new-form">
       <h1>Edit Lab</h1>
       <ul>
         <li class="text-danger" v-for="error in errors">{{ error }}</li>
@@ -498,6 +515,7 @@ Lab Crud
         <input type="text" class="form-control" v-model="labName">
       </div>
       <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+      <a class="btn btn-danger" href="javascript:history.back()">Cancel</a>
     </div>
 
   </div>
@@ -506,14 +524,20 @@ Lab Crud
 <template id="labs-delete-page">
   <div class="vue-component">
     <div class="container">
-      
-      <h2>{{ lab.title }}</h2>
-      <h3>Delete this lab?</h3>
-      <a v-bind:href="'/#/labs/' + lab.id" class="btn btn-success">No</a>
-      <button class="btn btn-danger" v-on:click="submit()">Yes</button>
-    </div>
-
-
+      <div class="row course-heading">
+        <div class="col-md-9">
+          <h2>{{ lab.title }}</h2>
+          <ul>
+            <li class="text-danger" v-for="error in errors">{{ error }}</li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h3>Delete this lab?</h3>
+          <a class="btn btn-success new-course-box" href="javascript:history.back()">No</a>
+          <button class="btn btn-danger new-course-box" v-on:click="submit()">Delete It</button>
+        </div>
+      </div> <!-- row -->
+    </div> <!-- container -->
   </div>
 </template>
 
@@ -602,3 +626,4 @@ Notebook Section Crud
     </div>
   </div>
 </template>
+

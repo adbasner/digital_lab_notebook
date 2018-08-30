@@ -351,7 +351,8 @@ var LabsDeletePage = {
   created: function() {
     axios.get("/api/labs/" + this.$route.params.id).then(function(response) {
       console.log('hello from lab delete page');
-      this.lab = response.data;
+      this.lab = response.data.lab;
+      console.log(this.lab);
       this.description = response.data.description;
     }.bind(this));
   },
