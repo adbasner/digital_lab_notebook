@@ -102,3 +102,8 @@ body {
 .student-data {
   margin-top: 20px;
 }
+
+.lab-notebook {
+  border-top: solid black 1px;
+  padding-top: 20px;
+}

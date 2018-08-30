@@ -380,6 +380,7 @@ Course Crud
         <textarea class="form-control" v-model="description" rows="3" ></textarea>
       </div>
       <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+      <a class="btn btn-danger" href="javascript:history.back()">Cancel</a>
     </div>
   </div>
 </template>
@@ -401,6 +402,7 @@ Course Crud
         <textarea class="form-control" v-model="description" rows="3" ></textarea>
       </div>
       <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+      <a class="btn btn-danger" href="javascript:history.back()">Cancel</a>
     </div>
 
   </div>
@@ -447,9 +449,9 @@ Lab Crud
         </div>
       </div> <!-- row -->
 
-      <div class="row course-heading">
+      <div class="row course-heading lab-notebook">
         <div class="col-md-9">
-          <h3>{{ lab.title }} Lab Notebook</h3>
+          <h3>Lab Notebook</h3>
         </div>
         <div class="col-md-3">
           <a v-if="role == 'teacher'" class="btn btn-success new-course-box" v-bind:href="'/#/labs/' + lab.id + '/notebook/new'">Add a section</a>
@@ -547,7 +549,7 @@ Notebook Section Crud
 
 <template id="notebook-section-new-page">
   <div class="vue-component">
-    <div class="container">
+    <div class="container new-form">
       <h2>Add a section</h2>
       <ul>
         <li class="text-danger" v-for="error in errors">{{ error }}</li>
@@ -557,7 +559,7 @@ Notebook Section Crud
         <input type="text" class="form-control" v-model="heading">
       </div>
       <div class="form-group">
-        <label>Section Info: (You can leave it blank to let students fill it in)</label> 
+        <label>Section Info:</label> 
         <input type="textarea" rows="5" class="form-control" v-model="datum">
       </div>
       <p>Can the student enter data in this section?</p>
@@ -567,13 +569,14 @@ Notebook Section Crud
       </div>
       
       <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+      <a class="btn btn-danger" href="javascript:history.back()">Cancel</a>
     </div>
   </div>
 </template>
 
 <template id="notebook-section-edit-page">
   <div class="vue-component">
-    <div class="container">
+    <div class="container new-form">
       <h2>Edit a section</h2>
       <ul>
         <li class="text-danger" v-for="error in errors">{{ error }}</li>
@@ -583,7 +586,7 @@ Notebook Section Crud
         <input type="text" class="form-control" v-model="heading">
       </div>
       <div class="form-group">
-        <label>Section Data: (You can leave it blank to let students fill it in)</label> 
+        <label>Section Info:</label> 
         <input type="textarea" rows="5" class="form-control" v-model="datum">
       </div>
       <p>Can the student edit this section?</p>
@@ -593,6 +596,7 @@ Notebook Section Crud
       </div>
       
       <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+      <a class="btn btn-danger" href="javascript:history.back()">Cancel</a>
     </div>
   </div>
 </template>
@@ -600,18 +604,27 @@ Notebook Section Crud
 <template id="notebook-section-delete-page">
   <div class="vue-component">
     <div class="container">
-      <h3>Delete this section?</h3>
-      <h4>{{ heading }}</h4>
-      <p>{{ datum }}</p>
-      <a v-bind:href="'/#/labs/' + labId" class="btn btn-success">No</a>
-      <button class="btn btn-danger" v-on:click="submit()">Yes</button>
-    </div>
+      <div class="row course-heading">
+        <div class="col-md-9">
+          <h2>{{ heading }}</h2>
+          <p>{{ datum }}</p>
+          <ul>
+            <li class="text-danger" v-for="error in errors">{{ error }}</li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h3>Delete this section?</h3>
+          <a class="btn btn-success new-course-box" href="javascript:history.back()">No</a>
+          <button class="btn btn-danger new-course-box" v-on:click="submit()">Delete It</button>
+        </div>
+      </div> <!-- row -->
+    </div> <!-- container -->
   </div>
 </template>
 
 <template id="notebook-data-new-page">
   <div class="vue-component">
-    <div class="container">
+    <div class="container new-form">
       <h2>Add Data to this section</h2>
       <ul>
         <li class="text-danger" v-for="error in errors">{{ error }}</li>
@@ -623,6 +636,7 @@ Notebook Section Crud
         <input type="textarea" class="form-control" v-model="notebookData">
       </div>
       <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+      <a class="btn btn-danger" href="javascript:history.back()">Cancel</a>
     </div>
   </div>
 </template>
