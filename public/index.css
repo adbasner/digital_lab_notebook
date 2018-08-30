@@ -29,14 +29,13 @@ body {
 
 .welcome-text-container {
   position: absolute;
-  left: 50%;
-  top: 20%;
-  width: 95%;
+  left: 5%;
+  top: 15%;
 }
 
 .welcome-text {
   position: relative;
-  left: -50%;
+  /*max-width: 400px;*/
   text-align: center;
   color: #f2f2f2;
 }
