@@ -2,8 +2,6 @@ class Api::LabsController < ApplicationController
   def index
     @labs = Lab.where(course_id: params[:course_id])
 
-    
-
     if current_teacher
       @role = 'teacher'
     elsif current_student
