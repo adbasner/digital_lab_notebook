@@ -23,4 +23,7 @@ class Api::NotebookDataController < ApplicationController
     
     render 'show.json.jbuilder'
   end
+
+  def destroy
+  end
 end

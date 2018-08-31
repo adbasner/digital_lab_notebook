@@ -67,13 +67,15 @@ var CoursesJoinPage = {
   data: function() {
     return {
       course: [],
-      errors: []
+      errors: [],
+      role: ""
     };
-  },
+  }, 
   created: function() {
     axios.get("/api/courses/" + this.$route.params.id).then(function(response) {
-      // console.log(response.data);
+      console.log(response.data);
       this.course = response.data;
+      // this.role = 
       // console.log(this.course);
     }.bind(this));
   },

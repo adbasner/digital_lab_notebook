@@ -20,6 +20,8 @@ class Api::CoursesController < ApplicationController
   def show
     if current_teacher
       @role = 'teacher'
+    elsif current_student
+      @role = 'student'
     end
     @course = Course.find_by(id: params[:id])
     render 'show.json.jbuilder'
