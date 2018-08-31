@@ -212,12 +212,12 @@ var LabsNewPage = {
   data: function() {
     return {
       labName: "",
-      courseId: this.$route.query.course,
+      courseId: this.$route.params.id,
       errors: []
     };
   },
   created: function() {
-    console.log(this.$route);
+    // console.log(this.$route.params.id);
   },
   methods: {
     submit: function() {
@@ -311,8 +311,11 @@ var LabsDeletePage = {
       role: ""
     };
   },
+
+
+  // "/courses/:id/labs/:labid/delete",
   created: function() {
-    axios.get("/api/labs/" + this.$route.params.id).then(function(response) {
+    axios.get("/api/labs/" + this.$route.params.labid).then(function(response) {
       console.log('hello from lab delete page');
       this.lab = response.data.lab;
       console.log(this.lab);
@@ -322,10 +325,10 @@ var LabsDeletePage = {
   methods: {
     submit: function() {
       axios
-        .delete("/api/labs/" + this.$route.params.id)
+        .delete("/api/labs/" + this.$route.params.labid)
         .then(function(response) {
-          router.push("/courses");
-        })
+          router.push("/courses/" + this.$route.params.id);
+        }.bind(this))
         .catch(
           function(error) {
             this.errors = error.response.data.errors;
@@ -686,10 +689,10 @@ var router = new VueRouter({
     { path: "/courses/:id/edit", component: CoursesEditPage },
     { path: "/courses/:id/delete", component: CoursesDeletePage },
     { path: "/courses/:id/join", component: CoursesJoinPage },
-    { path: "/labs/new", component: LabsNewPage },
+    { path: "/courses/:id/labs/new", component: LabsNewPage },
     { path: "/labs/:id", component: LabsShowPage },
     { path: "/labs/:id/edit", component: LabsEditPage },
-    { path: "/labs/:id/delete", component: LabsDeletePage },
+    { path: "/courses/:id/labs/:labid/delete", component: LabsDeletePage },
     { path: "/labs/:id/notebook/new", component: NoteboookSectionNewPage },
     { path: "/labs/:id/notebook/:nbsid/edit", component: NoteboookSectionEditPage },
     { path: "/labs/:id/notebook/:nbsid/delete", component: NoteboookSectionDeletePage },

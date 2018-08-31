@@ -305,7 +305,7 @@ Course Crud
           <h3>Labs in this course</h3>
         </div>
         <div class="col-md-3">
-          <a v-if="role == 'teacher'" class="btn btn-success new-course-box" v-bind:href="'/#/labs/new?course=' + course.id">Add a Lab</a>
+          <a v-if="role == 'teacher'" class="btn btn-success new-course-box" v-bind:href="'/#/courses/' + course.id + '/labs/new'">Add a Lab</a>
         </div>
       </div> <!-- row -->
 
@@ -428,7 +428,7 @@ Lab Crud
         </div>
         <div class="col-md-3">
           <a v-if="role == 'teacher'" class="btn btn-primary new-course-box" v-bind:href="'/#/labs/' + lab.id + '/edit'">Edit this lab</a>
-          <a v-if="role == 'teacher'" class="btn btn-danger new-course-box" v-bind:href="'/#/labs/' + lab.id + '/delete'">Delete this lab</a>
+          <a v-if="role == 'teacher'" class="btn btn-danger new-course-box" v-bind:href="'/#/courses/' + lab.course_id + '/labs/' + lab.id +'/delete'">Delete this lab</a>
         </div>
       </div> <!-- row -->
 
