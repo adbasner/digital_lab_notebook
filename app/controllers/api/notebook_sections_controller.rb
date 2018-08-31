@@ -12,7 +12,7 @@ class Api::NotebookSectionsController < ApplicationController
   def create
     @notebook_section = NotebookSection.new(
         lab_id: params[:lab_id],
-        # priority: params[:priority],
+        priority: params[:priority],
         heading: params[:heading],
         datum: params[:datum],
         student_can_edit: params[:student_can_edit]

@@ -17,7 +17,7 @@
 
 <body>
   <nav id="main-nav" class="navbar navbar-expand-md navbar-dark">
-      <a class="navbar-brand" href="#">Digital Lab Notebook</a>
+      <a class="navbar-brand" href="/">Digital Lab Notebook</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -56,15 +56,12 @@
       </div>
   </nav>
 
-
   <div id="vue-app">
 
     <router-view></router-view>
 
   </div>
   
-
-
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -77,32 +74,18 @@ Authentication
 
 <template id="home-page">
   <div class="vue-component">
-    <div class="home-page-carousel" >
-      <div class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img class="d-block w-100 " src="images/jar.jpg" alt="First slide">
-          </div>
-          <div class="carousel-item">
-            <img class="d-block w-100" src="images/scope.jpg" alt="Second slide">
-          </div>
-          <div class="carousel-item">
-            <img class="d-block w-100" src="images/flask.jpg" alt="Third slide">
-          </div>
-        </div>
-      </div>
-
-      <div class="welcome-text-container">
-        <div class="welcome-text">
-          <h1>{{ message1 }}</h1>
-          <h3>{{ message2 }}</h3>
+    <div class="header-container">
+      <img class="header-image" src="images/flaskheader.jpg" alt="old chemistry flasks">
+      <div class="welcome-text-container" class="row">
+        <div class="col-md-8 offset-md-2">
+          <h1 class="welcome-text">A free online digital lab notebook for educational laboratory settings</h1>
         </div>
       </div>
     </div>
-    
+
     <div class="container-fluid">
       <div class="row home-page-row">
-        <div class="col-md-6" >
+        <div class="col-sm-6" >
           <div class="card">
             <div class="card-header">
               <h5 class="card-title">Teachers</h5>
@@ -114,13 +97,13 @@ Authentication
             </div>
           </div>
         </div>
-        <div class="col-md-6" >
+        <div class="col-sm-6" >
           <div class="card">
             <div class="card-header">
               <h5 class="card-title">Students</h5>
             </div>
             <div class="card-body">
-              <p class="card-text">Join a course, view and complete exciting labs, and record your results and data.</p>
+              <p class="card-text">Join a course, explore new topics, view and complete exciting labs, and record your results and data.</p>
               <a href="/#/student-signup" class="btn btn-primary">Sign Up</a>
               <a href="/#/student-login" class="btn btn-primary">Login</a>
             </div>
@@ -328,7 +311,7 @@ Course Crud
 
       <div class="row">
         <div v-for="lab in labs" class="col-md-4">
-          <div class="card course-card">
+          <div class="card course-card lab-card">
             <div class="card-body">
               <h5 class="card-title">{{ lab.title }}</h5>
               
@@ -459,8 +442,8 @@ Lab Crud
       </div> <!-- row -->
 
       <div v-for="section in notebookSections">
-        <div class="row course-heading">
-          <div class="col-md-9">
+        <div class="row course-heading nb-section">
+          <div class="col-sm-9">
             <h4> {{ section.heading }} </h4>
             <p>{{ section.datum }}</p>
             <p v-if="section.student_can_edit && role == 'teacher'">Students will be able to enter data for this section.</p>
@@ -470,14 +453,14 @@ Lab Crud
                 <h5 v-if="role == 'student'">My Data</h5>
               </div>
               <div class="col-7">
-                <div v-for="datum in section.notebook_data">
-                  <p>{{ datum }} </p>
-                </div>
+                <ul v-for="datum in section.notebook_data">
+                  <li>{{ datum }} </li>
+                </ul>
               </div>
             </div>
           </div>
 
-          <div class="col-md-3">
+          <div class="col-sm-3">
             <a v-if="role == 'teacher'" class="btn btn-primary new-course-box" v-bind:href="'/#/labs/' + lab.id + '/notebook/' + section.id + '/edit'">Edit</a>
             <a v-if="role == 'teacher'" class="btn btn-danger new-course-box" v-bind:href="'/#/labs/' + lab.id + '/notebook/' + section.id + '/delete'" >Delete</a>
             <a v-if="section.student_can_edit && role == 'student'" class="btn btn-primary new-course-box" v-bind:href="'/#/labs/' + lab.id + '/notebook/' + section.id + '/notebookdata/new'">Enter Data</a>
@@ -516,6 +499,7 @@ Lab Crud
         <label>Lab Title:</label> 
         <input type="text" class="form-control" v-model="labName">
       </div>
+      
       <button class="btn btn-primary" v-on:click="submit()">Submit</button>
       <a class="btn btn-danger" href="javascript:history.back()">Cancel</a>
     </div>
@@ -560,7 +544,11 @@ Notebook Section Crud
       </div>
       <div class="form-group">
         <label>Section Info:</label> 
-        <input type="textarea" rows="5" class="form-control" v-model="datum">
+        <textarea rows="3" class="form-control" v-model="datum"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Order on page:</label> 
+        <input type="text" class="form-control" v-model="priority">
       </div>
       <p>Can the student enter data in this section?</p>
       <div class="form-group">
@@ -588,6 +576,10 @@ Notebook Section Crud
       <div class="form-group">
         <label>Section Info:</label> 
         <input type="textarea" rows="5" class="form-control" v-model="datum">
+      </div>
+      <div class="form-group">
+        <label>Order on page:</label> 
+        <input type="text" class="form-control" v-model="priority">
       </div>
       <p>Can the student edit this section?</p>
       <div class="form-group">

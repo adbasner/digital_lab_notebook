@@ -257,43 +257,6 @@ var LabsShowPage = {
       this.lab = response.data.lab;
       console.log(response.data);
       this.notebookSections = response.data.notebook_sections;
-
-
-    // # @notebook_sections = []
-    // # @nbs = @lab.notebook_sections
-    // # @nbs.each do |nbs|
-    // #   nbs_hash = {
-    // #     id: nbs.id,
-    // #     lab_id: nbs.lab_id,
-    // #     priority: nbs.priority,
-    // #     heading: nbs.heading,
-    // #     datum: nbs.datum,
-    // #     student_can_edit: nbs.student_can_edit
-    // #   }
-    // #   student_id = ""
-    // #   nbdata = []
-    // #   nbs.notebook_data.each do |nbd| 
-    // #     student_id = nbd.student_id
-    // #     p student_id
-    // #     nbdata << nbd.datum
-    // #   end
-    // #   nbs_hash[:notebook_data] = nbdata
-    // #   p nbs_hash
-    // #   @notebook_sections << nbs_hash
-    // # end
-
-
-
-
-
-
-
-
-
-
-
-
-
       this.role = response.data.role;
     }.bind(this));
     
@@ -314,7 +277,7 @@ var LabsEditPage = {
   created: function() {
     axios.get("/api/labs/" + this.$route.params.id).then(function(response) {
       console.log(response.data);
-      this.labName = response.data.title;
+      this.labName = response.data.lab.title;
     }.bind(this));
   },
   methods: {
@@ -384,7 +347,8 @@ var NoteboookSectionNewPage = {
       heading: "",
       datum: "",
       canEdit: "",
-      errors: []
+      errors: [],
+      priority: ""
     };
   },
   created: function() {
@@ -396,7 +360,8 @@ var NoteboookSectionNewPage = {
         heading: this.heading,
         datum: this.datum,
         student_can_edit: this.canEdit,
-        lab_id: this.$route.params.id
+        lab_id: this.$route.params.id,
+        priority: this.priority,
       };
       console.log(params);
 
@@ -422,6 +387,7 @@ var NoteboookSectionEditPage = {
       heading: "",
       datum: "",
       canEdit: "",
+      priority: "",
       errors: []
     };
   },
@@ -433,6 +399,7 @@ var NoteboookSectionEditPage = {
       this.heading = response.data.heading;
       this.datum = response.data.datum;
       this.canEdit = response.data.student_can_edit;
+      this.priority = response.data.priority;
     }.bind(this));
   },
   methods: {
@@ -442,7 +409,8 @@ var NoteboookSectionEditPage = {
         heading: this.heading,
         datum: this.datum,
         student_can_edit: this.canEdit,
-        lab_id: this.$route.params.id
+        lab_id: this.$route.params.id,
+        priority: this.priority,
       };
       console.log(params);
 

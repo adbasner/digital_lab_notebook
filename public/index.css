@@ -14,28 +14,24 @@ body {
   color: #f2f2f2;
 }
 
-.carousel-item {
+.header-container {
   height: 400px;
-}
-
-.carousel-item img {
-  object-fit: cover;
-  height: 100%;
-}
-
-.home-page-carousel {
+  width: 100%;
   position: relative;
+}
+.header-image {
+  position: center;
+  object-fit: cover;
+  height: 400px;
+  width: 100%;
 }
 
 .welcome-text-container {
   position: absolute;
-  left: 5%;
-  top: 15%;
+  top: 20%;
 }
 
 .welcome-text {
-  position: relative;
-  /*max-width: 400px;*/
   text-align: center;
   color: #f2f2f2;
 }
@@ -43,6 +39,7 @@ body {
 .home-page-row {
   margin: 15px auto;
 }
+
 
 .card {
     margin-top: 20px;
@@ -66,6 +63,7 @@ body {
   text-align: center;
   margin: 0 auto;
   margin-bottom: 10px;
+  /*max-width: 200px;*/
   /*background-color: red;*/
 }
 
@@ -76,6 +74,10 @@ body {
 .course-card {
   position: relative;
   height: 250px;
+}
+
+.lab-card {
+  height: 125px;
 }
 
 .course-card-button {
@@ -107,3 +109,9 @@ body {
   border-top: solid black 1px;
   padding-top: 20px;
 }
+
+.nb-section {
+  border-top: dotted black 1px;
+  padding-top: 20px;
+}
+
