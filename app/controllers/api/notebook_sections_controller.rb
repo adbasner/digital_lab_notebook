@@ -18,11 +18,10 @@ class Api::NotebookSectionsController < ApplicationController
         student_can_edit: params[:student_can_edit]
       )
 
-    # Add if statement eventually
-    # if current_teacher
-      @notebook_section.save!
-    # end
-    
+    if current_teacher
+      @notebook_section.save
+    end
+
     render 'show.json.jbuilder'
   end
 
@@ -35,12 +34,17 @@ class Api::NotebookSectionsController < ApplicationController
     @notebook_section.student_can_edit = params[:student_can_edit] || @notebook_section.student_can_edit
 
     # Add an if statement
-    @notebook_section.save
+    if current_teacher
+      @notebook_section.save
+    end
+
   end
 
   def destroy
     @notebook_section = NotebookSection.find_by(id: params[:id])
-    @notebook_section.destroy
+    if current_teacher
+      @notebook_section.destroy
+    end
     render json: { message: 'Notebook section deleted' }
   end
 end
