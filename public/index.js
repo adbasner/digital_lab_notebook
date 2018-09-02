@@ -51,10 +51,9 @@ var CoursesShowPage = {
   },
   created: function() {
     axios.get("/api/courses/" + this.courseId).then(function(response) {
-      // console.log(response.data.labs);
       this.course = response.data;
       this.role = response.data.role;
-      this.labs= response.data.labs
+      this.labs = response.data.labs;
     }.bind(this));
   },
   methods: {
@@ -73,10 +72,7 @@ var CoursesJoinPage = {
   }, 
   created: function() {
     axios.get("/api/courses/" + this.$route.params.id).then(function(response) {
-      console.log(response.data);
       this.course = response.data;
-      // this.role = 
-      // console.log(this.course);
     }.bind(this));
   },
   methods: {
@@ -183,7 +179,6 @@ var CoursesDeletePage = {
   },
   created: function() {
     axios.get("/api/courses/" + this.$route.params.id).then(function(response) {
-      console.log('hello from couse delete page');
       this.course = response.data;
       this.description = response.data.description;
     }.bind(this));
@@ -218,9 +213,7 @@ var LabsNewPage = {
       errors: []
     };
   },
-  created: function() {
-    // console.log(this.$route.params.id);
-  },
+  created: function() {},
   methods: {
     submit: function() {
       var params = {
@@ -257,7 +250,6 @@ var LabsShowPage = {
     var sections = [];
     axios.get("/api/labs/" + this.$route.params.id).then(function(response) {
       this.lab = response.data.lab;
-      console.log(response.data);
       this.notebookSections = response.data.notebook_sections;
       this.role = response.data.role;
     }.bind(this));
@@ -278,7 +270,6 @@ var LabsEditPage = {
   },
   created: function() {
     axios.get("/api/labs/" + this.$route.params.id).then(function(response) {
-      console.log(response.data);
       this.labName = response.data.lab.title;
     }.bind(this));
   },
@@ -318,9 +309,7 @@ var LabsDeletePage = {
   // "/courses/:id/labs/:labid/delete",
   created: function() {
     axios.get("/api/labs/" + this.$route.params.labid).then(function(response) {
-      console.log('hello from lab delete page');
       this.lab = response.data.lab;
-      console.log(this.lab);
       this.description = response.data.description;
     }.bind(this));
   },
@@ -360,7 +349,6 @@ var NoteboookSectionNewPage = {
   },
   methods: {
     submit: function() {
-      console.log("Clicked submit");
       var params = {
         heading: this.heading,
         datum: this.datum,
@@ -368,7 +356,6 @@ var NoteboookSectionNewPage = {
         lab_id: this.$route.params.id,
         priority: this.priority,
       };
-      console.log(params);
 
       axios
         .post("/api/notebook_sections", params)
@@ -397,10 +384,7 @@ var NoteboookSectionEditPage = {
     };
   },
   created: function() {
-    // console.log(this.$route);
-    console.log("In edit page");
     axios.get("/api/notebook_sections/" + this.$route.params.nbsid).then(function(response) {
-      console.log(response.data);
       this.heading = response.data.heading;
       this.datum = response.data.datum;
       this.canEdit = response.data.student_can_edit;
@@ -409,7 +393,6 @@ var NoteboookSectionEditPage = {
   },
   methods: {
     submit: function() {
-      console.log("Clicked submit");
       var params = {
         heading: this.heading,
         datum: this.datum,
@@ -417,7 +400,6 @@ var NoteboookSectionEditPage = {
         lab_id: this.$route.params.id,
         priority: this.priority,
       };
-      console.log(params);
 
       axios
         .patch("/api/notebook_sections/" + this.$route.params.nbsid, params)
@@ -447,9 +429,7 @@ var NoteboookSectionDeletePage = {
     };
   },
   created: function() {
-    console.log("In delete page");
     axios.get("/api/notebook_sections/" + this.$route.params.nbsid).then(function(response) {
-      console.log(response.data);
       this.heading = response.data.heading;
       this.datum = response.data.datum;
       this.canEdit = response.data.student_can_edit;
@@ -460,8 +440,6 @@ var NoteboookSectionDeletePage = {
   },
   methods: {
     submit: function() {
-      console.log("Clicked submit");
-
       axios
         .delete("/api/notebook_sections/" + this.nbsId)
         .then(function(response) {
@@ -489,9 +467,7 @@ var NoteboookDataNewPage = {
     };
   },
   created: function() {
-    console.log("In new data page");
     axios.get("/api/notebook_sections/" + this.$route.params.nbsid).then(function(response) {
-      console.log(response.data);
       this.heading = response.data.heading;
       this.datum = response.data.datum;
       this.canEdit = response.data.student_can_edit;
@@ -502,12 +478,10 @@ var NoteboookDataNewPage = {
   },
   methods: {
     submit: function() {
-      console.log("Clicked submit");
       var params = {
         datum: this.notebookData,
         notebook_section_id: this.nbsId
       };
-      console.log(params);
 
       axios
         .post("/api/notebook_data", params)
@@ -522,7 +496,7 @@ var NoteboookDataNewPage = {
     }
   },
   computed: {}
-  };
+};
 
 // ******************************
 // Authentication
@@ -711,8 +685,8 @@ var app = new Vue({
   router: router,
   created: function() {
     var jwt = localStorage.getItem("jwt");
-    console.log('jwt');
-    console.log(jwt);
+    // console.log('jwt');
+    // console.log(jwt);
     if (jwt) {
       axios.defaults.headers.common["Authorization"] = jwt;
     }
